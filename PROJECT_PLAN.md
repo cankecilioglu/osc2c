@@ -1,169 +1,171 @@
-# Bitirme Projesi Planı — OSC2C: OpenSCENARIO 2.1 → CARLA Derleyicisi
+# Capstone Project Plan — OSC2C: OpenSCENARIO 2.1 → CARLA Compiler
 
-**Sürüm:** 1.0
-**Tarih:** 26 Ekim 2026
-**Hedef:** 31 Ocak 2027'ye kadar makalenin çalışan, test edilmiş, açık kaynak uygulaması; Şubat 2027'den itibaren tez dönemi.
-
----
-
-## 0. Yönetici özeti
-
-Makale, ASAM OpenSCENARIO 2.1 DSL'ini CARLA simülatöründe çalıştırılabilir py_trees davranış ağaçlarına çeviren üç aşamalı bir derleyici tarif ediyor:
-
-1. **Frontend:** ANTLR4 ile lexing/parsing → tipli AST
-2. **Middle-end:** sembol tablosu, kapsam çözümleme, tip/birim doğrulama
-3. **Backend/runtime:** py_trees üretimi, MethodRegistry, ExecutionContext, CARLA adaptörü
-
-Makalenin kodu veya grammar'ı yayınlanmamıştır. Bu nedenle proje, tarif edilen mimarinin **sıfırdan, açık kaynak ve tekrarlanabilir** biçimde yeniden kurulmasıdır. Ocak sonuna kadar hedef, makalenin Table 2 yetenek matrisinin seçilmiş bir alt kümesini ve Listing 1–3'teki cut-in senaryosunu uçtan uca çalıştırmaktır.
-
-**Ana strateji:** CARLA'yı en sona bırak; derleyicinin büyük kısmını `MockAdapter` ile simülatörsüz geliştir ve test et. Böylece kurulum/performans riski projeyi kilitlemez.
+**Version:** 1.0
+**Date:** 26 October 2026
+**Target:** A working, tested, open-source implementation of the paper by 31 January 2027; thesis period from February 2027.
 
 ---
 
-## 1. "Açık kaynak yeniden kurma" ne demek?
+## 0. Executive summary
 
-Makale yalnızca mimariyi anlatıyor; kod vermiyor. "Açık kaynak yeniden kurma" şu anlama gelir:
+The paper describes a three-stage compiler that translates the ASAM OpenSCENARIO 2.1 DSL into py_trees behavior trees executable in the CARLA simulator:
 
-- Tarif edilen sistemi **kendi kodunla** yazmak.
-- Kodu, README, lisans, testler ve kurulum adımlarıyla birlikte **başkalarının indirip çalıştırabileceği** hale getirmek.
-- Mevcut açık kaynak parçaları kullanmak (py-osc2 grammar, py_trees, CARLA) ve kaynak göstermek.
-- Kendi kodun için bir lisans seçmek (MIT veya Apache-2.0).
-- "Kopyalamak" değil; **şeffaf, tekrarlanabilir ve ölçülebilir** bir uygulama ortaya koymak.
+1. **Frontend:** lexing/parsing with ANTLR4 → typed AST
+2. **Middle-end:** symbol table, scope resolution, type/unit validation
+3. **Backend/runtime:** py_trees generation, MethodRegistry, ExecutionContext, CARLA adapter
 
-Tez açısından değeri: literatürde kod bulunmayan bir yöntemin çalışan, doğrulanmış ve yeniden üretilebilir uygulamasını sunmak. AVL ve danışman onayına kadar repo **private** kalabilir; onay sonrası public yapılır.
+The paper's code and grammar have not been published. The project is therefore a **from-scratch, open-source and reproducible** reconstruction of the described architecture. The goal by the end of January is to run a selected subset of the paper's Table 2 capability matrix and the cut-in scenario from Listings 1–3 end to end.
+
+**Core strategy:** leave CARLA for last; develop and test the bulk of the compiler with a `MockAdapter`, without a simulator. That way, installation/performance risk cannot block the project.
 
 ---
 
-## 2. Kapsam
+## 1. What does "open-source reconstruction" mean?
 
-### 2.1 Ocak sonuna kadar — Must (zorunlu)
+The paper only describes the architecture; it provides no code. "Open-source reconstruction" means the following:
 
-> **Uygulama durumu (26 Ekim 2026):** Bu liste Ocak hedefidir; aşama 5 sonunda
-> teslim edilen kapsam ve bilinçli ertelemeler
-> [`docs/SCOPE_AUDIT.md`](docs/SCOPE_AUDIT.md) içinde kalem kalem izlenir.
-> Grammar 2.1 fark analizi [`docs/GRAMMAR_GAPS.md`](docs/GRAMMAR_GAPS.md)
-> içinde tamamlandı. Ertelemeler sessizce yok sayılmaz: kullanıldığında
-> semantik hata veya `unsupported` uyarısı üretir.
+- Writing the described system **with your own code**.
+- Making the code **something others can download and run**, together with the README, license, tests and setup steps.
+- Using existing open-source components (py-osc2 grammar, py_trees, CARLA) and attributing them.
+- Choosing a license for your own code (MIT).
+- Not "copying", but delivering a **transparent, reproducible and measurable** implementation.
 
-**Dil / frontend**
+The value for the thesis: presenting a working, validated and reproducible implementation of a method for which no code exists in the literature. The repository may stay **private** until thesis submission and be made public afterwards.
+
+---
+
+## 2. Scope
+
+### 2.1 Until the end of January — Must (mandatory)
+
+> **Implementation status (26 October 2026):** This list is the January target; the scope actually
+> delivered at the end of Stage 5 and the deliberate deferrals are tracked item by item in
+> [`docs/SCOPE_AUDIT.md`](docs/SCOPE_AUDIT.md). The Grammar 2.1 gap analysis was completed in
+> [`docs/GRAMMAR_GAPS.md`](docs/GRAMMAR_GAPS.md). Deferrals are not silently ignored: when used,
+> they produce a semantic error or an `unsupported` warning.
+
+**Language / frontend**
 - `import`, `use`, `scenario`
-- Aktör tanımları: `vehicle`, `environment` (`stationary_object` ve `map`
-  ertelendi — bkz. kapsam denetimi)
-- `keep(...)` kısıtları (aktör alanı eşitliği)
-- `var` ve fiziksel birimler: `kph`, `mph`, `m/s`, `m`, `s`, `deg`, `rad`
-- `with` blokları ve modifier'lar: `at`, `side`, `side_of`, `behind`,
-  `distance`, `speed`, `lane`, `position` (`rate_profile` ertelendi)
-- Kompozisyon: `do serial`, `do parallel`, `serial`, `parallel`, `one_of`
-- Olaylar: `wait`, `rise`, `fall`, `elapsed`, `emit`, `@event`
-- Kaynak konumlu hata mesajları
+- Actor definitions: `vehicle`, `environment` (`stationary_object` and `map`
+  deferred — see scope audit)
+- `keep(...)` constraints (actor field equality)
+- `var` and physical units: `kph`, `mph`, `m/s`, `m`, `s`, `deg`, `rad`
+- `with` blocks and modifiers: `at`, `side`, `side_of`, `behind`,
+  `distance`, `speed`, `lane`, `position` (`rate_profile` deferred)
+- Composition: `do serial`, `do parallel`, `serial`, `parallel`, `one_of`
+- Events: `wait`, `rise`, `fall`, `elapsed`, `emit`, `@event`
+- Error messages with source locations
 
-**Semantik**
-- Global ve iç içe kapsamlar (namespace, struct, actor, method)
-- İki geçişli çözümleme: definition pass + resolution pass
-- Kalıtım: `vehicle` → `traffic_participant`
-- Fiziksel tip sistemi ve birim dönüşümü
-- `stdtypes` / `domain.osc` fallback çözümlemesi
-- Pozitif ve negatif testler (tanımsız sembol, tip hatası, birim hatası, geçersiz modifier)
+**Semantics**
+- Global and nested scopes (namespace, struct, actor, method)
+- Two-pass resolution: definition pass + resolution pass
+- Inheritance: `vehicle` → `traffic_participant`
+- Physical type system and unit conversion
+- `stdtypes` / `domain.osc` fallback resolution
+- Positive and negative tests (undefined symbol, type error, unit error, invalid modifier)
 
 **Runtime / backend**
-- İfade değerlendirici ve birim dönüşümleri
-- Aktör arama önbelleği (O(1))
-- `ahead_of` (topolojik/OpenDRIVE) ve `object_distance(direction: euclidean)` ayrımı
-- Olay blackboard'u, `rise`/`fall` kenar algılama
-- py_trees: `Sequence`, `Parallel`, `Selector` (`SuccessOnOne`); otomatik
-  timeout sarmalayıcıları ertelendi (elle `wait elapsed(...)` kullanılabilir)
-- MethodRegistry ve atomik davranışlar:
-  - `drive` / waypoint takibi
-  - `change_speed` (oransal hız kontrolü; PID ertelendi)
-  - `change_lane` (OpenDRIVE şerit offsetleri)
+- Expression evaluator and unit conversions
+- Actor lookup cache (O(1))
+- Distinction between `ahead_of` (topological/OpenDRIVE) and `object_distance(direction: euclidean)`
+- Event blackboard, `rise`/`fall` edge detection
+- py_trees: `Sequence`, `Parallel`, `Selector` (`SuccessOnOne`); automatic
+  timeout wrappers deferred (manual `wait elapsed(...)` can be used)
+- MethodRegistry and atomic behaviors:
+  - `drive` / waypoint following
+  - `change_speed` (proportional speed control; PID deferred)
+  - `change_lane` (OpenDRIVE lane offsets)
   - `assign_position` (lane / relative / absolute)
   - `set_lights`
   - `assign_celestial_position`
-- `ScenarioInitializer`: 3 yerleştirme modu (default map, relative topological, absolute Cartesian)
-- `role_name` eşlemesi
+- `ScenarioInitializer`: 3 placement modes (default map, relative topological, absolute Cartesian)
+- `role_name` mapping
 
 **CARLA**
-- Synchronous mode, sabit `fixed_delta_seconds`
-- Aktör spawn/teleport
-- Listing 1–3 cut-in senaryosunun çalışması
-- Demo videosu (teslim aşamasında)
+- Synchronous mode, fixed `fixed_delta_seconds`
+- Actor spawn/teleport
+- Running the Listing 1–3 cut-in scenario
+- Demo video (at submission stage)
 
-**Doğrulama**
-- 5 senaryo mock backend'de uçtan uca
-- 1 senaryo (cut-in) CARLA'da
-- 20 tekrarda determinizm (trace hash)
-- Derleme süresi ve tick başına gecikme ölçümü
-- Table 2 kapsam matrisi (desteklenen / kısmi / desteklenmeyen + test bağlantısı)
+**Validation**
+- 5 scenarios end to end on the mock backend
+- 1 scenario (cut-in) in CARLA
+- Determinism over 20 repetitions (trace hash)
+- Compile-time and per-tick latency measurement
+- Table 2 coverage matrix (supported / partial / unsupported + test link)
 
-#### 2.1.1 Frontend gerçekliği (26 Ekim doğrulaması)
+#### 2.1.1 Frontend reality (26 October verification)
 
-Kurulan py-osc2 0.1.0 grammar'ı OSC 2.0 seviyesinde. Doğrulanan durum:
+The installed py-osc2 0.1.0 grammar is at the OSC 2.0 level. Verified state:
 
-- **Çalışıyor:** `scenario`, `vehicle`, `keep`, `var`, `at:`, `side_of`, `one_of`, `serial/parallel`, `rise/fall`, `emit`, `wait @event`, `with` blokları.
-- **Eksik:** Dosya başındaki `use std.stdtypes` (grammar'da yalnızca namespace içinde var).
-- **Fark:** `35 kph` gibi boşluklu fiziksel literal tek token olarak eşleşmiyor; `35kph` çalışıyor. Kaynak kodda hangi yazımın kullanılacağı netleştirilecek.
-- **Spike sonucu (26 Ekim):** Grammar MPL-2.0 temel alınarak genişletildi; top-level `use` ve boşluklu fiziksel literal kuralları eklendi, ANTLR 4.13.2 ile yeniden üretildi. Paper tarzı iç içe `serial/parallel`, `emit`, `wait elapsed` ve birimli ifadeler 0 hatayla parse ediliyor. py-osc2 bağımlılığı kaldırıldı; grammar projeye vendored edildi (MPL-2.0 bildirimiyle). Kalan 2.1 farkları W2'de tarandı; sonuç [`docs/GRAMMAR_GAPS.md`](docs/GRAMMAR_GAPS.md) içinde. Bileşik birimler (`m/s`, `km/h`, `m/s^2`) grammar, anlamsal katman ve runtime'a eklendi.
+- **Working:** `scenario`, `vehicle`, `keep`, `var`, `at:`, `side_of`, `one_of`, `serial/parallel`, `rise/fall`, `emit`, `wait @event`, `with` blocks.
+- **Gap:** A file-level `use std.stdtypes` (in the grammar it exists only inside a namespace).
+- **Discrepancy:** A spaced physical literal such as `35 kph` does not match as a single token; `35kph` works. Which spelling to use in the sources will be clarified.
+- **Spike result (26 October):** The grammar was extended on an MPL-2.0 basis; top-level `use` and spaced physical literal rules were added and regenerated with ANTLR 4.13.2. Paper-style nested `serial/parallel`, `emit`, `wait elapsed` and expressions with units parse with 0 errors. The py-osc2 dependency was removed; the grammar was vendored into the project (with an MPL-2.0 notice). The remaining 2.1 gaps were scanned in W2; the result is in [`docs/GRAMMAR_GAPS.md`](docs/GRAMMAR_GAPS.md). Compound units (`m/s`, `km/h`, `m/s^2`) were added to the grammar, the semantic layer and the runtime.
 
-### 2.2 Should (zaman kalırsa)
+### 2.2 Should (if time permits)
 
-- Hava durumu (yağmur, sis), trafik ışıkları
+- Weather (rain, fog), traffic lights
 - `follow_path`, `follow_trajectory`
 - Time gap / space gap / headway
-- Orientation modifier'ları
-- Elle yazılmış CARLA script'i ile karşılaştırma
-- ScenarioRunner karşılaştırması (opsiyonel)
+- Orientation modifiers
+- Comparison with a hand-written CARLA script
+- ScenarioRunner comparison (optional)
 
-### 2.3 Ocak sonuna kadar kapsam dışı
+### 2.3 Out of scope until the end of January
 
-- Tam OSC 2.1 ontolojisi
-- Yaya niyeti, kavşak geçiş hakkı
-- Olasılıksal hava durumu
-- ROS 2 entegrasyonu
-- LLM ile senaryo üretimi
-- C++ optimizasyonu
+- Full OSC 2.1 ontology
+- Pedestrian intent, intersection right of way
+- Probabilistic weather
+- ROS 2 integration
+- Scenario generation with an LLM
+- C++ optimization
 
-Bu maddeler "desteklenmiyor" tanılamasıyla açıkça raporlanır; sessizce yok sayılmaz.
+These items are reported explicitly with an "unsupported" diagnostic; they are not silently ignored.
 
-### 2.4 Tez dönemi (Şubat–Haziran 2027)
+### 2.4 Thesis period (February–June 2027)
 
-- Kapsamı genişletme: yaya, kavşak, KPI hesaplama
-- Tam değerlendirme ve tez yazımı
-- Opsiyonel uzantı: LLM → OSC 2.1 → CARLA hattı
-- Opsiyonel: bildiri/workshop başvurusu
+- Scope expansion: pedestrians, intersections, KPI computation
+- Full evaluation and thesis writing
+- Optional extension: LLM → OSC 2.1 → CARLA pipeline
+- Optional: paper/workshop submission
 
 ---
 
-## 3. Mimari
+## 3. Architecture
 
 ```text
-.osc2 kaynak
+.osc2 source
     │
     ▼
 [Frontend]  ANTLR4 parser + ASTTransformer
-    │        → tipli AST, kaynak konumları
+    │        → typed AST, source locations
     ▼
 [Middle-end]  SymbolTable + Resolver + TypeSystem
-    │        → anotasyonlu AST + GlobalScope
+    │        → annotated AST + GlobalScope
     ▼
 [Backend]  BehaviorTreeBuilder + MethodRegistry
-    │        → py_trees davranış ağacı
+    │        → py_trees behavior tree
     ▼
 [Runtime]  ExecutionContext + event blackboard
     │
-    ├── MockAdapter   (test/CI, simülatörsüz)
-    └── CarlaAdapter  (demo/ölçüm)
+    ├── MockAdapter   (test/CI, no simulator)
+    └── CarlaAdapter  (demo/measurement)
 ```
 
-Repo iskeleti:
+Repository skeleton:
 
 ```text
-osc2-carla/
+osc2c/
 ├─ QODER.md
 ├─ README.md
 ├─ LICENSE
 ├─ NOTICE
-├─ grammar/openscenario2.g4        # py-osc2 (MPL-2.0) referansı
-├─ stdlib/                          # types.osc, domain.osc (repoya koyma)
+├─ THIRD_PARTY_NOTICES.md
+├─ CITATION.cff
+├─ LICENSES/MPL-2.0.txt
+├─ grammar/openscenario2.g4        # py-osc2 (MPL-2.0) reference
+├─ external/asam/                   # ASAM 2.2.0 files (gitignored, not redistributed)
 ├─ src/osc2c/
 │  ├─ frontend/    parser, ast, transformer
 │  ├─ semantics/   symbols, types, units, resolver
@@ -177,150 +179,147 @@ osc2-carla/
 
 ---
 
-## 4. 14 haftalık takvim (26 Ekim 2026 – 31 Ocak 2027)
+## 4. 14-week schedule (26 October 2026 – 31 January 2027)
 
-| Hafta | Tarih | Odak | Çıktı / kapı |
+| Week | Date | Focus | Output / gate |
 |---|---|---|---|
-| W1 | 26 Eki – 1 Kas | Plan, ortam, repo, parse spike | Python/Java/CARLA kurulu; Listing 1 parse edilip AST dump ediliyor (G0) |
-| W2 | 2 – 8 Kas | Grammar gap analizi; top-level `use` ve fiziksel literal kuralları; AST düğümleri | Genişletilmiş grammar; Listing 1–3 parse; gap analizi `docs/GRAMMAR_GAPS.md` |
-| W3 | 9 – 15 Kas | ASTTransformer, tanılama, golden testler | 10 parser testi; G1: tüm listing'ler parse |
-| W4 | 16 – 22 Kas | Sembol tablosu, kapsamlar, definition pass | Sembol tablosu testleri |
-| W5 | 23 – 29 Kas | Resolution pass, kalıtım, tip/birim sistemi, stdtypes | Tip/birim çözümleme çalışıyor |
-| W6 | 30 Kas – 6 Ara | İfade değerlendirici, birim dönüşümleri, negatif testler | G2: listing'ler semantik olarak geçerli; 15 negatif test |
-| W7 | 7 – 13 Ara | BT builder, olay blackboard'u, kenar algılama, mock iskeleti | BT kompozitleri test edildi |
-| W8 | 14 – 20 Ara | Mock atomik davranışlar + Listing 1–3 uçtan uca | G3: mock e2e yeşil; trace assertion'ları |
-| W9 | 21 – 27 Ara | Tatil / sınav / buffer / CARLA kurulum denemeleri | CARLA smoke test |
-| W10 | 28 Ara – 3 Oca | Yılbaşı / buffer / dokümantasyon | Opsiyonel erken CARLA adaptörü |
-| W11 | 4 – 10 Oca | CARLA adaptörü, initializer, 3 yerleştirme modu, role_name | G4a: aktörler doğru konumda |
-| W12 | 11 – 17 Oca | CARLA atomik davranışları, cut-in senaryosu, kamera | G4b: cut-in CARLA'da çalışıyor |
-| W13 | 18 – 24 Oca | 5 senaryo doğrulama, determinizm, benchmark, baseline | Ölçüm raporu taslağı |
-| W14 | 25 – 31 Oca | Dondurma, README/lisans/CI, demo videosu, v0.1 etiketi | G5: teslim paketi + AVL demo |
+| W1 | 26 Oct – 1 Nov | Plan, environment, repo, parse spike | Python/Java/CARLA installed; Listing 1 parsed and AST dumped (G0) |
+| W2 | 2 – 8 Nov | Grammar gap analysis; top-level `use` and physical literal rules; AST nodes | Extended grammar; Listings 1–3 parse; gap analysis in `docs/GRAMMAR_GAPS.md` |
+| W3 | 9 – 15 Nov | ASTTransformer, diagnostics, golden tests | 10 parser tests; G1: all listings parse |
+| W4 | 16 – 22 Nov | Symbol table, scopes, definition pass | Symbol table tests |
+| W5 | 23 – 29 Nov | Resolution pass, inheritance, type/unit system, stdtypes | Type/unit resolution working |
+| W6 | 30 Nov – 6 Dec | Expression evaluator, unit conversions, negative tests | G2: listings semantically valid; 15 negative tests |
+| W7 | 7 – 13 Dec | BT builder, event blackboard, edge detection, mock skeleton | BT composites tested |
+| W8 | 14 – 20 Dec | Mock atomic behaviors + Listings 1–3 end to end | G3: mock e2e green; trace assertions |
+| W9 | 21 – 27 Dec | Holiday / exams / buffer / CARLA installation attempts | CARLA smoke test |
+| W10 | 28 Dec – 3 Jan | New Year / buffer / documentation | Optional early CARLA adapter |
+| W11 | 4 – 10 Jan | CARLA adapter, initializer, 3 placement modes, role_name | G4a: actors in the correct position |
+| W12 | 11 – 17 Jan | CARLA atomic behaviors, cut-in scenario, camera | G4b: cut-in runs in CARLA |
+| W13 | 18 – 24 Jan | 5-scenario validation, determinism, benchmark, baseline | Measurement report draft |
+| W14 | 25 – 31 Jan | Freeze, README/license/CI, demo video, v0.1 tag | G5: submission package + demo |
 
-**Buffer:** W9–W10 iki haftalık tampon. Sınav/tatil nedeniyle kayma olursa "Could" maddeleri ve ScenarioRunner karşılaştırması düşer; cut-in + mock doğrulama korunur.
+**Buffer:** W9–W10 are a two-week buffer. If exams/holidays cause slippage, the "Could" items and the ScenarioRunner comparison are dropped; cut-in + mock validation are retained.
 
-**Go/No-Go:** W8 sonunda mock e2e çalışmıyorsa kapsam daraltılır: CARLA'da yalnızca cut-in gösterilir, Table 2'nin Should maddeleri tez dönemine bırakılır.
+**Go/No-Go:** If mock e2e is not working at the end of W8, the scope is narrowed: only cut-in is shown in CARLA, and the Should items of Table 2 are left to the thesis period.
 
 ---
 
-## 5. Doğrulama planı
+## 5. Validation plan
 
-### 5.1 Test katmanları
+### 5.1 Test layers
 
-1. **Parser testleri:** Geçerli/geçersiz `.osc` dosyaları, hata konumu ve mesajı.
-2. **Golden AST testleri:** AST JSON snapshot'ları; regresyon yakalama.
-3. **Semantik testler:** Tanımsız sembol, tip uyuşmazlığı, birim uyuşmazlığı, geçersiz modifier, kalıtım.
-4. **Golden BT testleri:** Üretilen py_trees yapısının JSON dump'ı.
-5. **Mock e2e:** 5 senaryo; olay sırası, konum/hız assertion'ları.
-6. **CARLA e2e:** Cut-in senaryosu; 20 tekrar; trace hash ile determinizm.
-7. **Performans:** Derleme süresi (senaryo başına), tick başına gecikme (ms), bellek.
-8. **Kapsam:** Table 2 matrisi; her hücre test bağlantısı veya "desteklenmiyor" gerekçesi.
+1. **Parser tests:** Valid/invalid `.osc` files, error location and message.
+2. **Golden AST tests:** AST JSON snapshots; regression capture.
+3. **Semantic tests:** Undefined symbol, type mismatch, unit mismatch, invalid modifier, inheritance.
+4. **Golden BT tests:** JSON dump of the generated py_trees structure.
+5. **Mock e2e:** 5 scenarios; event order, position/speed assertions.
+6. **CARLA e2e:** Cut-in scenario; 20 repetitions; determinism via trace hash.
+7. **Performance:** Compile time (per scenario), per-tick latency (ms), memory.
+8. **Coverage:** Table 2 matrix; each cell has a test link or an "unsupported" rationale.
 
-### 5.2 Senaryo seti
+### 5.2 Scenario set
 
-| ID | Senaryo | Amaç |
+| ID | Scenario | Purpose |
 |---|---|---|
-| S1 | `cut_in_evasive.osc` | Makalenin Listing 1–3'ü; çok aktörlü olay senkronizasyonu |
-| S2 | `lane_change_speed.osc` | `change_lane` + PID hız profili |
-| S3 | `event_handshake.osc` | `emit` / `wait @event`; iki aktör |
-| S4 | `placement_modes.osc` | Default / relative / absolute yerleştirme |
-| S5 | `environment_lights.osc` | Alacakaranlık, ışık, hava durumu |
-| N1 | `semantic_errors/` | Negatif tanılama testleri |
+| S1 | `cut_in_evasive.osc` | The paper's Listings 1–3; multi-actor event synchronization |
+| S2 | `lane_change_speed.osc` | `change_lane` + PID speed profile |
+| S3 | `event_handshake.osc` | `emit` / `wait @event`; two actors |
+| S4 | `placement_modes.osc` | Default / relative / absolute placement |
+| S5 | `environment_lights.osc` | Dusk, lights, weather |
+| N1 | `semantic_errors/` | Negative diagnostic tests |
 
-### 5.3 Ölçümler
+### 5.3 Measurements
 
-- **Determinizm:** 20 tekrarda tick bazlı konum/hız trace'lerinin hash'i aynı olmalı (sabit dt, sabit seed, synchronous mode).
-- **Performans:** Elle yazılmış CARLA Python script'i ile karşılaştırma; ScenarioRunner karşılaştırması zaman kalırsa.
-- **KPI:** Çarpışma sayısı, minimum mesafe, minimum TTC, senaryo tamamlama.
-- **Kapsam:** Table 2'nin yüzde kaçı destekleniyor; desteklenmeyenlerin listesi.
+- **Determinism:** The hashes of the tick-based position/speed traces must be identical across 20 repetitions (fixed dt, fixed seed, synchronous mode).
+- **Performance:** Comparison with a hand-written CARLA Python script; ScenarioRunner comparison if time permits.
+- **KPI:** Number of collisions, minimum distance, minimum TTC, scenario completion.
+- **Coverage:** What percentage of Table 2 is supported; the list of unsupported items.
 
 ---
 
-## 6. Teslim edilebilirler
+## 6. Deliverables
 
-| ID | Teslim | Tarih |
+| ID | Deliverable | Date |
 |---|---|---|
-| D1 | Bu plan | 26 Eki 2026 |
-| D2 | Ortam + repo iskeleti + `QODER.md` | W1 |
-| D3 | Frontend (genişletilmiş 2.1 grammar) + parser testleri | W3 |
-| D4 | Semantik çözümleyici + negatif testler | W6 |
-| D5 | BT + mock runtime + Listing 1–3 e2e | W8 |
-| D6 | CARLA adaptörü + cut-in demosu | W12 |
-| D7 | Doğrulama raporu + benchmark | W13 |
-| D8 | v0.1 açık kaynak sürüm adayı + demo videosu + tez devir dokümanı | W14 |
+| D1 | This plan | 26 Oct 2026 |
+| D2 | Environment + repo skeleton + `QODER.md` | W1 |
+| D3 | Frontend (extended 2.1 grammar) + parser tests | W3 |
+| D4 | Semantic resolver + negative tests | W6 |
+| D5 | BT + mock runtime + Listings 1–3 e2e | W8 |
+| D6 | CARLA adapter + cut-in demo | W12 |
+| D7 | Validation report + benchmark | W13 |
+| D8 | v0.1 open-source release candidate + demo video + thesis handover document | W14 |
 
 ---
 
-## 7. Açık kaynak ve lisans planı
+## 7. Open source and license plan
 
-- **Kendi kodun:** Apache-2.0 (kurumsal iş birliği ve patent grant için) veya MIT. AVL/danışman tercihi netleşince sabitlenir.
-- **py-osc2 grammar:** MPL-2.0. Kopyalanır/değiştirilirse dosya MPL lisansıyla kalır; `NOTICE` dosyasında belirtilir.
-- **ASAM `types.osc` / `domain.osc`:** Şu an repoda tutulmaz; kullanıcı
-  dosyaları ASAM'dan indirip `osc2c check|bt|run --stdlib <dosya>` ile yerel
-  olarak bağlar. Paket başlığı "ASAM allows unrestricted distribution of this
-  standard" dediği için yeniden dağıtım seçeneği açıktır; karar verilirse
-  `NOTICE` güncellenir ve dosyalar `external/asam/` altında izlenir
-  (bkz. [`docs/GRAMMAR_DIFF_2.2.md`](docs/GRAMMAR_DIFF_2.2.md) §8).
-- **CARLA:** Kendi lisansına tabi; repo'ya binary koyulmaz.
-- **Yayın:** Geliştirme sırasında private repo; AVL ve danışman onayından sonra public + `v0.1` etiketi.
-- **Atıf:** Makale, py-osc2, CARLA, py_trees, ASAM OpenSCENARIO 2.1.
+- **Own code:** MIT. Copyright (c) 2026 Can Kecilioglu. The full MIT text is in the [`LICENSE`](LICENSE) file at the repository root.
+- **Third-party grammar/parser:** the vendored py-osc2 grammar and the generated ANTLR parser files remain MPL-2.0; see [`NOTICE`](NOTICE) for the per-file list and the record of modifications, and [`LICENSES/MPL-2.0.txt`](LICENSES/MPL-2.0.txt) for the full license text.
+- **Other third parties:** the ANTLR tool jar (BSD-3-Clause) and the Python runtime dependencies (`antlr4-python3-runtime`, `py_trees`, `numpy`, all BSD-3-Clause) are listed in [`THIRD_PARTY_NOTICES.md`](THIRD_PARTY_NOTICES.md). None of the runtime dependencies are vendored.
+- **ASAM `types.osc` / `domain.osc`:** Not redistributed. The files are kept locally under `external/asam/`, which is gitignored; users download the package from ASAM and bind it with `osc2c check|bt|run --stdlib <file>` (see [`docs/GRAMMAR_DIFF_2.2.md`](docs/GRAMMAR_DIFF_2.2.md) §8).
+- **CARLA:** Subject to its own license; no binaries are placed in the repository.
+- **Citation:** If you use this compiler, please cite the paper it reproduces; see [`CITATION.cff`](CITATION.cff) and the `## Citation` section of the README.
+- **Publication:** The repository may stay private during development until thesis submission, and be made public afterwards together with the `v0.1` tag.
+- **Attribution:** The paper, py-osc2, CARLA, py_trees, ASAM OpenSCENARIO 2.1.
 
 ---
 
-## 8. Riskler ve azaltma
+## 8. Risks and mitigation
 
-| Risk | Etki | Azaltma |
+| Risk | Impact | Mitigation |
 |---|---|---|
-| CARLA kurulumu/AMD performansı | Yüksek | Mock-first; `-quality-level=Low`, düşük çözünürlük, off-screen; gerekirse Linux/cloud |
-| Kapsam patlaması | Yüksek | Must/Should/Could; Table 2 alt kümesi; "desteklenmiyor" tanılaması |
-| py-osc2 grammar 2.0 seviyesinde | Düşük (kapandı) | ASAM 2.2.0 `grammar.ebnf` ile mekanik diff yapıldı (165 EBNF / 154 parser kuralı); üç boşluk kapatıldı. Ayrıntı: `docs/GRAMMAR_DIFF_2.2.md` |
-| ASAM standart dosyalarına erişim | Düşük | 2.2.0 paketi `external/asam/` altında mevcut ve `--stdlib` ile tanılamasız yükleniyor; erişim olmasa da yerleşik alt küme devrede |
-| Birim/olay semantiği hataları | Orta | Golden testler; makale örnekleri; negatif testler |
-| Zaman (sınav/tatil) | Orta | W9–W10 buffer; W8 go/no-go |
-| Açık kaynak onayı | Düşük/Orta | Private geliştirme; onay sonrası yayın |
-| Tez özgünlüğü | Orta | Doğrulama + tekrarlanabilirlik + mock backend + (opsiyonel) LLM uzantısı |
+| CARLA installation/AMD performance | High | Mock-first; `-quality-level=Low`, low resolution, off-screen; Linux/cloud if necessary |
+| Scope creep | High | Must/Should/Could; Table 2 subset; "unsupported" diagnostic |
+| py-osc2 grammar at the 2.0 level | Low (closed) | Mechanical diff against ASAM 2.2.0 `grammar.ebnf` (165 EBNF / 154 parser rules); three gaps closed. Details: `docs/GRAMMAR_DIFF_2.2.md` |
+| Access to ASAM standard files | Low | The 2.2.0 package is available under `external/asam/` and loads without diagnostics via `--stdlib`; the built-in subset remains active even without access |
+| Unit/event semantic bugs | Medium | Golden tests; paper examples; negative tests |
+| Time (exams/holidays) | Medium | W9–W10 buffer; W8 go/no-go |
+| Publication timing | Low/Medium | Private development; published after thesis submission |
+| Thesis originality | Medium | Validation + reproducibility + mock backend + (optional) LLM extension |
 
 ---
 
-## 9. AVL / danışman ile netleştirilecekler
+## 9. Open questions
 
-1. Repo public olabilir mi? Lisans tercihi ne?
-2. Hangi OSC 2.1 yetenekleri/senaryoları öncelikli?
-3. ASAM standart dosyaları ve lisansı sağlanacak mı?
-4. Teslim/demo formatı ve kabul kriterleri ne?
-5. ScenarioRunner karşılaştırması bekleniyor mu?
-6. AVL araçlarıyla (örn. SCENARIUS) entegrasyon bekleniyor mu, yoksa yalnızca CARLA mı?
+1. When should the repository be made public?
+2. Which OSC 2.1 capabilities/scenarios are the priority?
+3. Will the ASAM standard files and their license be made available?
+4. What are the submission/demo format and the acceptance criteria?
+5. Is a ScenarioRunner comparison expected?
+6. Should integration with external scenario-authoring tools be considered, or is CARLA-only support sufficient?
 
 ---
 
-## 10. Ortam kurulumu (gerçekleşen)
+## 10. Environment setup (as performed)
 
-1. Python 3.12.15 (uv standalone; sistemdeki 3.15 kullanılmıyor)
-2. JDK 17 (ANTLR aracı için)
-3. CARLA 0.9.16 Windows paketi (`C:\CARLA_0.9.16`)
+1. Python 3.12.15 (uv standalone; the system 3.15 is not used)
+2. JDK 17 (for the ANTLR tool)
+3. CARLA 0.9.16 Windows package (`C:\CARLA_0.9.16`)
 4. Git + VS Code/Qoder
-5. Proje venv'i: `python -m venv .venv`
-6. `pip install -e ".[dev]"` (bağımlılıklar: `antlr4-python3-runtime`, `py-trees`, `pytest`, `pytest-cov`)
-7. Doğrulama:
+5. Project venv: `python -m venv .venv`
+6. `pip install -e ".[dev]"` (dependencies: `antlr4-python3-runtime`, `py-trees`, `pytest`, `pytest-cov`)
+7. Verification:
    - `python -c "import carla; print(carla.__version__)"`
    - `osc2c --help`
-   - `CarlaUE4.exe` ile `Town10HD_Opt` açılışı
-8. CARLA performans ayarları: düşük kalite, 1280×720, sabit `fixed_delta_seconds=0.05`
+   - Opening `Town10HD_Opt` with `CarlaUE4.exe`
+8. CARLA performance settings: low quality, 1280×720, fixed `fixed_delta_seconds=0.05`
 
-Ayrıntı ve sürüm doğrulaması: [`ENVIRONMENT.md`](ENVIRONMENT.md).
+Details and version verification: [`ENVIRONMENT.md`](ENVIRONMENT.md).
 
 ---
 
-## 11. Başarı tanımı
+## 11. Definition of success
 
-**Minimum başarı (Ocak sonu):**
-- Cut-in senaryosu CARLA'da çalışıyor.
-- 5 senaryo mock backend'de geçiyor.
-- 20 tekrarda determinizm kanıtlanmış.
-- Table 2 kapsam matrisi ve doğrulama raporu hazır.
-- Repo, README, lisans ve testlerle teslim edilebilir durumda.
+**Minimum success (end of January):**
+- The cut-in scenario runs in CARLA.
+- 5 scenarios pass on the mock backend.
+- Determinism is proven over 20 repetitions.
+- Table 2 coverage matrix and validation report are ready.
+- The repository is deliverable with README, license and tests.
 
-**Hedef başarı:**
-- Yukarıdakiler + 2 Should senaryosu + elle yazılmış CARLA baseline karşılaştırması + public v0.1.
+**Target success:**
+- The above + 2 Should scenarios + comparison against a hand-written CARLA baseline + public v0.1.
 
-**Uzatma (tez dönemi):**
-- LLM → OSC 2.1 → CARLA hattı, KPI tabanlı otomatik değerlendirme, bildiri.
+**Extension (thesis period):**
+- LLM → OSC 2.1 → CARLA pipeline, KPI-based automatic evaluation, paper.

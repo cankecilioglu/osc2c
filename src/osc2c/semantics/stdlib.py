@@ -1,10 +1,10 @@
 """Built-in fallback for the OSC 2.1 standard library.
 
-The ASAM `types.osc` / `domain.osc` files cannot be redistributed with this
+The ASAM `types.osc` / `domain.osc` files are not redistributed with this
 repository. This module provides the subset needed by the development
-scenarios so the middle-end is usable offline. When the licensed ASAM files
-are available, pass them to `osc2c check --stdlib ...`; user declarations are
-resolved on top of these builtins.
+scenarios so the middle-end is usable offline. When the ASAM files are
+available locally, pass them to `osc2c check --stdlib ...`; user declarations
+are resolved on top of these builtins.
 """
 
 from __future__ import annotations

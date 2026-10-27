@@ -6,21 +6,37 @@ build-backend = "setuptools.build_meta"
 name = "osc2c"
 version = "0.1.0"
 description = "OpenSCENARIO 2.1 to CARLA compiler (paper reproduction)"
+readme = "README.md"
 requires-python = ">=3.12"
+license = { text = "MIT" }
 authors = [{ name = "Can Kecilioglu", email = "cankecilioglu@gmail.com" }]
+keywords = ["OpenSCENARIO", "CARLA", "scenario-based testing", "compiler", "py_trees"]
+classifiers = [
+  "Development Status :: 4 - Beta",
+  "Intended Audience :: Science/Research",
+  "License :: OSI Approved :: MIT License",
+  "Programming Language :: Python :: 3.12",
+  "Topic :: Scientific/Engineering",
+  "Topic :: Software Development :: Compilers",
+]
 dependencies = [
   "antlr4-python3-runtime==4.13.2",
   "py-trees==2.6.0",
 ]
 
 [project.urls]
+Homepage = "https://github.com/cankecilioglu/osc2c"
 Repository = "https://github.com/cankecilioglu/osc2c"
+Issues = "https://github.com/cankecilioglu/osc2c/issues"
 
 [project.optional-dependencies]
 dev = ["pytest==9.1.1", "pytest-cov==7.1.0"]
 
 [project.scripts]
 osc2c = "osc2c.cli:main"
+
+[tool.setuptools]
+license-files = ["LICENSE", "NOTICE", "THIRD_PARTY_NOTICES.md", "LICENSES/*.txt"]
 
 [tool.setuptools.packages.find]
 where = ["src"]

@@ -1,4 +1,4 @@
-# Kasıtlı olarak geçersiz: bilinmeyen bileşik birim tanılaması (docs/GRAMMAR_GAPS.md §4).
+# Intentionally invalid: unknown compound unit diagnostic (docs/GRAMMAR_GAPS.md §4).
 namespace diagnostics
 
 scenario unknown_compound_unit:

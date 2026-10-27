@@ -1,19 +1,22 @@
 # OSC2C — OpenSCENARIO 2.1 → CARLA Compiler
 
-ASAM OpenSCENARIO 2.1 DSL'ini CARLA simülatöründe çalışan py_trees davranış ağaçlarına çeviren, makale tabanlı bir derleyici reprodüksiyonu.
+OSC2C is an open-source compiler that translates the ASAM OpenSCENARIO 2.1 DSL into py_trees behavior trees that run in the CARLA simulator. It is an independent, paper-based reimplementation of the architecture described in *Compiling OpenSCENARIO 2.1 for Scenario-Based Testing in CARLA* (arXiv:2604.16452). The paper does not publish its implementation; every component in this repository was built from scratch and is validated against executable scenarios.
 
-- Depo: https://github.com/cankecilioglu/osc2c
-- Makale: *Compiling OpenSCENARIO 2.1 for Scenario-Based Testing in CARLA* (arXiv:2604.16452)
-- Durum: Aşama 0 (ortam), Aşama 1 (lexer/parser/AST), Aşama 2 (semantik), Aşama 3 (runtime + BT), Aşama 4 (CARLA adaptörü + cut-in), Aşama 5 (doğrulama + ölçüm) ve Aşama 5.7 (kullanıcı tanımlı modifier genişletme) tamam.
-- Hedef: 31 Ocak 2027'ye kadar tez (Aşama 6).
+**Author:** Can Kecilioglu  
+**Repository:** https://github.com/cankecilioglu/osc2c  
+**Paper:** *Compiling OpenSCENARIO 2.1 for Scenario-Based Testing in CARLA* — Thoshitha Gamage, Lasanthi Gamage (arXiv:2604.16452, April 2026)  
+**Status:** Stages 0 (environment), 1 (lexer/parser/AST), 2 (semantics), 3 (runtime + behavior trees), 4 (CARLA adapter + cut-in), 5 (validation + measurement) and 5.7 (user-defined modifier expansion) are complete.  
+**Target:** thesis submission by 31 January 2027 (Stage 6).
 
-Proje adı **OSC2C**; Python paketi ve CLI komutu da `osc2c`.
+The Python package and the CLI are both named `osc2c`.
 
-## Hızlı başlangıç
+## Quick start
 
 ```bash
-cd C:\Users\canke\Desktop\osc2-carla
-.venv\Scripts\activate
+git clone https://github.com/cankecilioglu/osc2c.git
+cd osc2c
+python -m venv .venv
+source .venv/Scripts/activate    # Windows Git Bash; use `.venv/bin/activate` on Linux/macOS
 pip install -e .
 pytest -q
 osc2c ast scenarios/dev/smoke4.osc
@@ -21,127 +24,116 @@ osc2c check scenarios/dev/smoke4.osc
 osc2c bt scenarios/dev/stage3_sync.osc
 osc2c run scenarios/dev/stage3_sync.osc --ticks 200 --trace
 
-# CARLA sunucusu açıkken gerçek simülatörde cut-in
+# cut-in on the real simulator while the CARLA server is running
 osc2c run scenarios/carla/cut_in.osc --carla --map Town10HD_Opt --spawn-index 20 --ticks 300 --trace
 pytest -m carla -q
 
-# doğrulama ve ölçüm (CARLA'sız)
+# validation and measurement without CARLA
 python tools/bench.py --mode mock --repeat 20 --compile-repeat 20 \
   --json docs/measurements/mock.json --markdown docs/measurements/mock.md
 python tools/coverage.py --markdown docs/measurements/coverage.md
 ```
 
-`osc2c check` sembol tablosunu, tipleri ve birimleri çözer; hataları kararlı kodlarla
-(`E0401`, `E0301`, ...) raporlar. `--strict` uyarıları da hataya çevirir,
-`--dump-symbols` sembol tablosunu JSON olarak döker, `--stdlib FILE` harici ASAM
-tip dosyalarını yükler.
+`osc2c check` resolves the symbol table, types and units, and reports errors with stable codes (`E0401`, `E0301`, ...). `--strict` turns warnings into errors, `--dump-symbols` prints the symbol table as JSON, and `--stdlib FILE` loads an external ASAM type library.
 
-`osc2c bt` derlenmiş davranış ağacını JSON olarak verir. `osc2c run` aynı ağacı
-deterministik `MockAdapter` üzerinde çalıştırır; olayları ve aktör durumunu raporlar.
+`osc2c bt` prints the compiled behavior tree as JSON. `osc2c run` executes the same tree on the deterministic `MockAdapter` and reports events and actor state.
 
-ASAM 2.2.0 paketi (`grammar.ebnf`, `types.osc`, `domain.osc`, `standard.osc`)
-`external/asam/` altında yerel olarak durur ve `.gitignore` kapsamındadır.
-`--stdlib external/asam/standard.osc` gerçek kütüphaneyi import zinciriyle
-yükler; verilmezse `semantics/stdlib.py` içindeki yerleşik `stdtypes` / `std`
-alt kümesi kullanılır. Gerçek kütüphaneye bağlı testler dosyalar yoksa atlanır.
+The ASAM 2.2.0 package (`grammar.ebnf`, `types.osc`, `domain.osc`, `standard.osc`) is kept locally under `external/asam/`, which is excluded from version control. `--stdlib external/asam/standard.osc` loads the real library through its import chain; without it, the built-in `stdtypes` / `std` subset in `semantics/stdlib.py` is used. Tests that depend on the real library are skipped when the files are absent.
 
-## Davranış ağacı eşlemesi
+## Behavior-tree mapping
 
-| OSC2 | py_trees | Not |
+| OSC2 | py_trees | Note |
 | --- | --- | --- |
-| `serial` | `Sequence(memory=True)` | sıralı; başarılı çocuk yeniden çalışmaz |
-| `parallel` | `Parallel(SuccessOnAll)` | tüm dallar bitince başarılı |
-| `one_of` | `Parallel(SuccessOnOne)` | koşan dalı aç bırakmamak için Selector değil |
-| `drive` / `walk` | süreli yaprak | hedef hızı her tick uygular, `RUNNING` kalır |
-| `wait elapsed/rise/fall/@event` | koşul yaprağı | `rise`/`fall` gerçek kenar algılar |
-| `emit` | blackboard olayı | olaylar kalıcıdır (latched) |
+| `serial` | `Sequence(memory=True)` | sequential; a successful child is not re-run |
+| `parallel` | `Parallel(SuccessOnAll)` | succeeds when every branch has finished |
+| `one_of` | `Parallel(SuccessOnOne)` | not `Selector`, so the running branch is not left open |
+| `drive` / `walk` | durative leaf | applies the target speed every tick and stays `RUNNING` |
+| `wait elapsed/rise/fall/@event` | condition leaf | `rise`/`fall` detect real edges |
+| `emit` | blackboard event | events are latched |
 
-Süreli `drive` bir `serial` içinde tek başına bitmez; `one_of` veya bir `wait` ile
-sonlandırılması gerekir. Bu, makaledeki Listing 2'nin faz yapısıyla aynıdır.
+A durative `drive` never finishes by itself inside a `serial`; it must be terminated by `one_of` or a `wait`. This matches the phase structure of Listing 2 in the paper.
 
-Kullanıcı tanımlı modifier'lar derleme zamanında standart uygulamalara
-düzleştirilir: `modifier fast of vehicle: speed(10 mps)` tanımı,
-`hero.drive() with: fast()` çağrısında `speed(10 mps)` gibi davranır. Aynı
-genişletme nitelikli eylem gövdelerine ve `at: start` yükseltmesine uygulanır;
-kaynak sırası korunur, döngü ve desteklenmeyen gövde üyeleri uyarıyla
-raporlanır (`src/osc2c/backend/modifiers.py`).
+User-defined modifiers are flattened into standard applications at compile time: `modifier fast of vehicle: speed(10 mps)` behaves like `speed(10 mps)` in `hero.drive() with: fast()`. The same expansion applies to qualified action bodies and to `at: start` hoisting; source order is preserved, and cycles or unsupported body members are reported as warnings (`src/osc2c/backend/modifiers.py`).
 
-## CARLA üzerinde çalıştırma
+## Running on CARLA
 
-`--carla` verilmediği sürece her şey `MockAdapter` üzerinde, CARLA sunucusu olmadan
-çalışır. Gerçek simülatörde:
+Everything runs on the `MockAdapter` without a CARLA server unless `--carla` is supplied. With the real simulator:
 
-- Adaptör synchronous mode'u ve sabit `fixed_delta_seconds` değerini açar; kapanırken
-  önceki settings/weather değerlerini geri yükler ve oluşturduğu aktörleri yok eder.
-- Aktörler `role_name` ile eşlenir; harita spawn noktaları, aynı yönde uzun bir sol
-  şerit görüşüne göre sıralanır ve `--spawn-index` bu sıralamada başlangıç noktasını
-  seçer (dolu spawn noktaları atlanır).
-- `assign_position` göreli `ahead_of`/`behind` + `distance` ve `lane(side_of:)`
-  kombinasyonlarını destekler. `at: start` aksiyonları derleme sırasında bir kez
-  uygulanır; ağaçta bunların yerine başarılı bir yaprak durur.
-- `change_lane`, hedef şerit kimliği ve şerit merkezine yaklaşma (0.7 m) birlikte
-  sağlanınca tamamlanır; yol kimliği kavşaklarda değiştiği için tek başına
-  kullanılmaz.
-- Desteklenen araç blueprint'leri `tesla.model3` ve `lincoln.mkz_2017`; harita
-  varsayılanı sunucunun mevcut haritasıdır.
+- The adapter enables synchronous mode and a fixed `fixed_delta_seconds`, restores the previous settings/weather on shutdown, and destroys the actors it created.
+- Actors are matched by `role_name`. Map spawn points are ranked by a long forward view in the same-direction left lane, and `--spawn-index` selects the starting point in that order; occupied spawn points are skipped.
+- `assign_position` supports relative `ahead_of`/`behind` plus `distance`, and `lane(side_of:)` combinations. `at: start` actions are applied once during compilation and replaced by a successful leaf in the tree.
+- `change_lane` completes when both the target lane id and proximity to the lane center (0.7 m) are satisfied; it is not used alone because the road id changes at junctions.
+- Supported vehicle blueprints are `tesla.model3` and `lincoln.mkz_2017`; the default map is the server's current map.
 
-`scenarios/carla/cut_in.osc` hero'yu 12 m/s sabit hızla sürerken sol şeritteki NPC'yi
-2 s sonra sağa şerit değiştirmeye zorlar; `CUT_IN` olayından sonra hero frenler.
-Mock'ta 41 tick (4.0 s) sürer; CARLA'da geometrik olarak doğrulanır
-(`tests/test_carla.py`).
+`scenarios/carla/cut_in.osc` drives the hero at a constant 12 m/s while forcing the NPC in the left lane to change into the right lane after 2 s; the hero brakes after the `CUT_IN` event. It runs for 41 ticks (4.0 s) on the mock and is validated geometrically on CARLA (`tests/test_carla.py`).
 
-## Doğrulama ve ölçüm
+## Validation and measurement
 
-`docs/VALIDATION.md`, beş senaryonun mock sonuçlarını, 20 tekrarlı determinizm
-testlerini, derleme/tick gecikmelerini, CARLA cut-in KPI'larını ve makale
-Table 2 için hazırlanan kapsam matrisini içerir. Ham veriler
-`docs/measurements/` altındadır.
+`docs/VALIDATION.md` contains the mock results for five scenarios, 20-repetition determinism tests, compile/tick latencies, CARLA cut-in KPIs, and the coverage matrix prepared for Table 2 of the paper. Raw data is stored under `docs/measurements/`.
 
-- **Determinizm:** aynı senaryo, aynı ayarlar ve aynı adımla tick-by-tick
-  aktör durumu aynı SHA-256 trace hash'ini üretir. Mock'ta 5/5 senaryo
-  bit düzeyinde deterministik. CARLA'da davranış ve geometri 20/20 tekrarlı
-  koşuda aynı; trace hash'i çoğu oturumda tek olsa da fizik gürültüsü
-  (ör. 6×10⁻⁶ m/s hız farkı) hash'i değiştirebilir, bu yüzden CARLA için
-  "her zaman aynı hash" iddia edilmez.
-- **Kapsam:** 43 yetenek satırı → 24 desteklenen, 10 kısmi, 9 desteklenmeyen
-  (katı %56, ağırlıklı %67). Her satır çalışan bir kanıt dosyasına bağlıdır.
-- **Maliyet:** CARLA'da tick medyanı 5.45 ms; derleyicisiz baseline'ın tam
-  döngüsü 5.38 ms. Derleme steady-state ~130 ms (parser ağırlıklı).
+- **Determinism:** the same scenario, settings and step size produce the same SHA-256 trace hash from tick-by-tick actor state. The mock is bitwise deterministic for 5/5 scenarios. On CARLA, behavior and geometry are identical across 20/20 repeated runs; the trace hash is usually identical, but physics noise (for example a 6×10⁻⁶ m/s speed difference) can change it, so "always the same hash" is not claimed for CARLA.
+- **Coverage:** 43 capability rows → 24 supported, 10 partial, 9 unsupported (strict 56%, weighted 67%). Every row is tied to a runnable evidence file.
+- **Cost:** on CARLA the tick median is 5.45 ms; the full loop of the compiler-free baseline is 5.38 ms. Compile steady-state is about 130 ms (parser-dominated).
 
-`tools/bench.py` mock/CARLA ölçümlerini, `tools/coverage.py` kapsam matrisini,
-`tools/baseline_carla.py` ise derleyicisiz kontrol grubunu çalıştırır.
+`tools/bench.py` runs the mock/CARLA measurements, `tools/coverage.py` builds the coverage matrix, and `tools/baseline_carla.py` runs the compiler-free control group.
 
-## Yapı
+## Project layout
 
 ```text
-grammar/                     OSC 2.1 ANTLR grammar (MPL-2.0 türevi)
+grammar/                     OSC 2.1 ANTLR grammar (MPL-2.0 derivative)
 tools/                       ANTLR 4.13.2 jar
 src/osc2c/frontend/          parser, AST, transformer
-src/osc2c/semantics/         sembol tablosu, tipler, birimler
-src/osc2c/backend/           BT üretimi, MethodRegistry
-src/osc2c/runtime/           ExecutionContext, olaylar, atomik davranışlar
+src/osc2c/semantics/         symbol table, types, units
+src/osc2c/backend/           behavior-tree generation, MethodRegistry
+src/osc2c/runtime/           ExecutionContext, events, atomic behaviors
 src/osc2c/adapters/          SimAdapter, CarlaAdapter, MockAdapter
-src/osc2c/validation.py       determinizm, gecikme ve KPI harness'i
-src/osc2c/coverage.py         kanıtlı yetenek matrisi
-scenarios/                   .osc senaryoları (dev/ mock, carla/ gerçek sunucu)
-tests/                       unit + golden + e2e + doğrulama
+src/osc2c/validation.py      determinism, latency and KPI harness
+src/osc2c/coverage.py        evidence-backed capability matrix
+scenarios/                   .osc scenarios (dev/ for mock, carla/ for the real server)
+tests/                       unit + golden + end-to-end + validation tests
 tools/                       ANTLR jar, bench, coverage, CARLA baseline
-docs/                        aşamalar, doğrulama raporu, ölçümler
-external/                    CARLA kurulumu (git dışında)
+docs/                        stages, validation report, measurements
+external/                    CARLA installation (not tracked)
 ```
 
-## Dokümanlar
+## Documentation
 
-- [PROJECT_PLAN.md](PROJECT_PLAN.md) — kapsam, 14 haftalık takvim, riskler
-- [ENVIRONMENT.md](ENVIRONMENT.md) — kurulu araçlar ve yollar
-- [docs/STAGES.md](docs/STAGES.md) — öğrenme yolu ve aşamalar
-- [docs/VALIDATION.md](docs/VALIDATION.md) — Aşama 5 doğrulama ve ölçüm raporu
-- [docs/SCOPE_AUDIT.md](docs/SCOPE_AUDIT.md) — plan/gerçek kapsam karşılaştırması ve ertelemeler
-- [docs/GRAMMAR_GAPS.md](docs/GRAMMAR_GAPS.md) — dil yapısı bazında destek/eksik tabloları
-- [docs/GRAMMAR_DIFF_2.2.md](docs/GRAMMAR_DIFF_2.2.md) — ASAM 2.2.0 EBNF ↔ proje grammar karşılaştırması
-- [docs/measurements/](docs/measurements/) — ham JSON/Markdown ölçümler
+- [PROJECT_PLAN.md](PROJECT_PLAN.md) — scope, 14-week schedule, risks
+- [ENVIRONMENT.md](ENVIRONMENT.md) — installed tools and paths
+- [docs/STAGES.md](docs/STAGES.md) — learning path and stages
+- [docs/VALIDATION.md](docs/VALIDATION.md) — Stage 5 validation and measurement report
+- [docs/SCOPE_AUDIT.md](docs/SCOPE_AUDIT.md) — planned vs. actual scope and deferrals
+- [docs/GRAMMAR_GAPS.md](docs/GRAMMAR_GAPS.md) — support/gap tables by language construct
+- [docs/GRAMMAR_DIFF_2.2.md](docs/GRAMMAR_DIFF_2.2.md) — ASAM 2.2.0 EBNF ↔ project grammar comparison
+- [docs/measurements/](docs/measurements/) — raw JSON/Markdown measurements
 
-## Lisans
+## Citation
 
-Kendi kodun için lisans henüz kesinleşmedi (MIT veya Apache-2.0; AVL/danışman görüşü bekleniyor).
-Grammar ve üretilen parser MPL-2.0 altındadır; bkz. [NOTICE](NOTICE).
+If you use OSC2C in academic work, please cite the paper it reimplements:
+
+```bibtex
+@misc{gamage2026osc2carla,
+  title         = {Compiling OpenSCENARIO 2.1 for Scenario-Based Testing in CARLA},
+  author        = {Gamage, Thoshitha and Gamage, Lasanthi},
+  year          = {2026},
+  eprint        = {2604.16452},
+  archivePrefix = {arXiv},
+  url           = {https://arxiv.org/abs/2604.16452}
+}
+```
+
+A machine-readable citation is available in [CITATION.cff](CITATION.cff).
+
+## License
+
+The original code and documentation in this repository are licensed under the **MIT License**. Copyright (c) 2026 Can Kecilioglu. See [LICENSE](LICENSE).
+
+Third-party components keep their own licenses:
+
+- `grammar/openscenario2.g4` and the generated parser files are distributed under the **Mozilla Public License 2.0 (MPL-2.0)**. They are derived from the PMSF py-osc2 grammar; see [NOTICE](NOTICE) and [LICENSES/MPL-2.0.txt](LICENSES/MPL-2.0.txt).
+- `tools/antlr-4.13.2-complete.jar` is distributed under the **BSD-3-Clause** license.
+- Runtime dependencies (`antlr4-python3-runtime`, `py_trees`, `numpy`) are installed from PyPI and are not vendored.
+
+See [THIRD_PARTY_NOTICES.md](THIRD_PARTY_NOTICES.md) for details.
+
+The ASAM OpenSCENARIO 2.2.0 standard files under `external/asam/` are **not redistributed** by this repository; users must obtain them under the terms of the ASAM license. The CARLA simulator and the referenced paper are likewise not redistributed.

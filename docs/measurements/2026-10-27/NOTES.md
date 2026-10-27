@@ -1,49 +1,49 @@
-# 2026-10-27 — Bağımsız yeniden üretim oturumu
+# 2026-10-27 — Independent reproduction session
 
-Bu klasör, 2026-10-26 tarihli `docs/VALIDATION.md` raporundaki mock ve CARLA
-ölçümlerinin aynı makinede yeniden üretilmesinin kanıtlarını saklar. Amaç yeni
-bir sonuç üretmek değil, eski sonuçların hâlâ geçerli olup olmadığını
-denetlemektir.
+This folder holds the evidence for reproducing the mock and CARLA measurements
+from the 2026-10-26 `docs/VALIDATION.md` report on the same machine. The goal is
+not to produce a new result but to audit whether the earlier results still
+hold.
 
-## Klasördeki dosyalar
+## Files in the folder
 
-| Dosya | İçerik |
+| File | Content |
 | --- | --- |
-| `mock.json`, `mock.md` | 2026-10-27 mock koşusu (5 senaryo × 20 tekrar, 20 derleme tekrarı) |
-| `coverage.json`, `coverage.md` | 2026-10-27 kapsam matrisi doğrulaması |
-| `carla.json`, `carla.md` | CARLA **ikinci** oturumu (B); 20/20 aynı hash |
-| `console.log` | İki CARLA oturumunun (A ve B) tam konsol kaydı |
+| `mock.json`, `mock.md` | 2026-10-27 mock run (5 scenarios × 20 repetitions, 20 compile repetitions) |
+| `coverage.json`, `coverage.md` | 2026-10-27 coverage matrix validation |
+| `carla.json`, `carla.md` | CARLA **second** session (B); 20/20 identical hash |
+| `console.log` | Full console log of both CARLA sessions (A and B) |
 
-> Önemli: `carla.json` ve `carla.md` ikinci oturumun (B) çıktısıdır. İlk
-> oturumun (A) 2 benzersiz hash ürettiği kanıt yalnızca `console.log` içinde
-> durur. Bu nedenle ayrıntılı sayılar aşağıda ve `console.log` satırlarında
-> kayıtlıdır.
+> Important: `carla.json` and `carla.md` are the output of the second session
+> (B). The evidence that the first session (A) produced 2 unique hashes exists
+> only in `console.log`. The detailed numbers are therefore recorded below and
+> in the `console.log` lines.
 
-## 1. Mock koşusu
+## 1. Mock run
 
-Komut:
+Command:
 
 ```powershell
 python tools/bench.py --mode mock --repeat 20 --compile-repeat 20 `
   --json docs/measurements/mock.json --markdown docs/measurements/mock.md
 ```
 
-Sonuç: 5/5 senaryo `SUCCESS`, beklenen olay kümeleri birebir eşleşti,
-`unsupported` listeleri boş, her senaryoda `unique_hashes = 1`.
+Result: 5/5 scenarios `SUCCESS`, the expected event sets matched exactly, the
+`unsupported` lists were empty, and `unique_hashes = 1` for every scenario.
 
-Trace hash'leri 2026-10-26 raporuyla **birebir aynı**:
+The trace hashes are **exactly the same** as in the 2026-10-26 report:
 
-| ID | Trace hash (ilk 12) | Rapordaki değer |
+| ID | Trace hash (first 12) | Value in the report |
 | --- | --- | --- |
-| S1 | `4c0cdd1fccd7` | aynı |
-| S2 | `a7f99db0c475` | aynı |
-| S3 | `8ce2b96b79bf` | aynı |
-| S4 | `4671bbc0b97b` | aynı |
-| S5 | `0de7509b017e` | aynı |
+| S1 | `4c0cdd1fccd7` | same |
+| S2 | `a7f99db0c475` | same |
+| S3 | `8ce2b96b79bf` | same |
+| S4 | `4671bbc0b97b` | same |
+| S5 | `0de7509b017e` | same |
 
-Zamanlama değerleri birebir aynı değil; bu beklenen bir durumdur:
+The timing values are not exactly the same; this is expected:
 
-| ID | Derleme medyanı (26 Ekim) | Derleme medyanı (27 Ekim) |
+| ID | Compile median (26 October) | Compile median (27 October) |
 | --- | ---: | ---: |
 | S1 | 75.19 ms | 90.25 ms |
 | S2 | 59.06 ms | 56.88 ms |
@@ -51,63 +51,64 @@ Zamanlama değerleri birebir aynı değil; bu beklenen bir durumdur:
 | S4 | 29.77 ms | 29.33 ms |
 | S5 | 71.13 ms | 67.61 ms |
 
-Yorum: Trace hash'i dil ve yürütme semantiğinin determinizmini ölçer; duvar
-saati süreleri makine yüküne ve parser'ın uyarlamalı tahminine bağlıdır.
-Dolayısıyla "deterministik" iddiası yalnızca trace için geçerlidir, süreler
-için değildir.
+Comment: the trace hash measures the determinism of the language and execution
+semantics; wall-clock durations depend on machine load and on the parser's
+adaptive prediction. The claim of "determinism" therefore holds only for the
+trace, not for the durations.
 
-## 2. CARLA oturumu A — 20 koşu, 2 benzersiz hash
+## 2. CARLA session A — 20 runs, 2 unique hashes
 
-Sonuç: 20/20 `SUCCESS`, 20/20 `CUT_IN`, 20/20 geometri kontrolü, 0 çarpışma.
+Result: 20/20 `SUCCESS`, 20/20 `CUT_IN`, 20/20 geometry checks, 0 collisions.
 
-| Alan | Değer |
+| Field | Value |
 | --- | --- |
-| Benzersiz hash | **2** |
-| Baskın hash | `afaf910cd26b9c675f048d368ff177dce6a1132309df22031e836474a3f9c79b` (19 koşu) |
-| Aykırı hash | `8d185e5f4e22e6644f22b084c4db1f7f09f86995401145dedcb52affb7da16da` (1 koşu) |
-| `CUT_IN` zamanı | 3.25 s (tüm koşular) |
-| Olay anı \|yanal\| sapma | 1.2978 m |
-| Olay anı başlık farkı | 6.7218° |
-| Olay anı `ahead_of` | −12.1548 m |
-| Minimum mesafe | 11.938 m |
+| Unique hashes | **2** |
+| Dominant hash | `afaf910cd26b9c675f048d368ff177dce6a1132309df22031e836474a3f9c79b` (19 runs) |
+| Outlier hash | `8d185e5f4e22e6644f22b084c4db1f7f09f86995401145dedcb52affb7da16da` (1 run) |
+| `CUT_IN` time | 3.25 s (all runs) |
+| \|lateral\| deviation at the event | 1.2978 m |
+| Heading difference at the event | 6.7218° |
+| `ahead_of` at the event | −12.1548 m |
+| Minimum distance | 11.938 m |
 | Minimum TTC | 24.4897 s |
-| Tick sayısı | 108 |
+| Tick count | 108 |
 
-İki hash arasındaki tek fark, aykırı koşuda bir tick'te kaydedilen
-`hero_speed` değeridir:
+The only difference between the two hashes is the `hero_speed` value recorded
+in one tick of the outlier run:
 
-- 19 koşu: `2.966754` m/s
-- 1 koşu: `2.96676` m/s
-- Fark: yaklaşık `6 × 10⁻⁶` m/s
+- 19 runs: `2.966754` m/s
+- 1 run: `2.96676` m/s
+- Difference: approximately `6 × 10⁻⁶` m/s
 
-Bu fark 6 ondalık basamağa yuvarlanmış trace'e girdiği için hash'i
-değiştirmiştir. KPI'lar raporlanan duyarlılıkta (4 ondalık) aynı kaldı ve tüm
-koşular başarılı oldu. Yani bu bir davranış/geometri hatası değil, kayan nokta
-ve fizik motoru gürültüsüdür.
+Because this difference entered the trace rounded to 6 decimal places, it
+changed the hash. The KPIs stayed the same at the reported precision (4
+decimals) and all runs succeeded. So this is not a behavior/geometry error but
+floating-point and physics-engine noise.
 
-## 3. CARLA oturumu B — 20 koşu, 1 benzersiz hash
+## 3. CARLA session B — 20 runs, 1 unique hash
 
-Aynı komut ikinci kez çalıştırıldı:
+The same command was run a second time:
 
 ```powershell
 python tools/bench.py --mode carla --carla-repeat 20 `
   --json docs/measurements/carla.json --markdown docs/measurements/carla.md
 ```
 
-Sonuç: 20/20 `SUCCESS`, 20/20 `CUT_IN`, 20/20 geometri kontrolü, 0 çarpışma,
-**1 benzersiz hash**: `afaf910cd26b...` (oturum A'nın baskın hash'i ile aynı).
-Tüm KPI'lar oturum A ile aynı.
+Result: 20/20 `SUCCESS`, 20/20 `CUT_IN`, 20/20 geometry checks, 0 collisions,
+**1 unique hash**: `afaf910cd26b...` (identical to the dominant hash of session
+A). All KPIs are the same as in session A.
 
-## 4. Sonuç
+## 4. Conclusion
 
-- Mock tarafında **birebir trace determinizmi** yeniden üretildi.
-- CARLA tarafında **davranışsal ve geometrik determinizm** yeniden üretildi:
-  20/20 başarı, aynı olay zamanı, aynı KPI'lar.
-- CARLA'da **bit düzeyinde trace hash determinizmi garanti değildir**: iki
-  oturumdan birinde 20 koşunun 1'i 6e-6 m/s'lik bir hız farkıyla ayrı hash
-  üretti. Bu, `docs/VALIDATION.md` §3'teki "fizik motorunun çekirdek
-  determinizmi garanti edilmez" uyarısıyla tutarlıdır.
-- Bu nedenle tezde iki ifade ayrılmalıdır:
-  1. "Aynı senaryo aynı davranışı ve geometriyi üretir" — 20/20 destekleniyor.
-  2. "Aynı senaryo her zaman aynı trace hash'ini üretir" — CARLA için
-     desteklenmiyor; mock için destekleniyor.
+- On the mock side, **exact trace determinism** was reproduced.
+- On the CARLA side, **behavioral and geometric determinism** was reproduced:
+  20/20 success, the same event time, the same KPIs.
+- In CARLA, **bit-level trace hash determinism is not guaranteed**: in one of
+  the two sessions, 1 of the 20 runs produced a separate hash due to a speed
+  difference of 6e-6 m/s. This is consistent with the warning in
+  `docs/VALIDATION.md` §3 that "core determinism of the physics engine is not
+  guaranteed".
+- The thesis should therefore separate two statements:
+  1. "The same scenario produces the same behavior and geometry" — supported 20/20.
+  2. "The same scenario always produces the same trace hash" — not supported
+     for CARLA; supported for the mock.

@@ -1,0 +1,34 @@
+cff-version: 1.2.0
+message: "If you use this software, please cite it and the paper it reimplements."
+title: "OSC2C: OpenSCENARIO 2.1 to CARLA Compiler"
+abstract: "An open-source compiler that translates ASAM OpenSCENARIO 2.1 scenarios into py_trees behavior trees for the CARLA simulator."
+type: software
+authors:
+  - family-names: Kecilioglu
+    given-names: Can
+    email: cankecilioglu@gmail.com
+version: 0.1.0
+date-released: 2026-10-27
+license: MIT
+repository-code: "https://github.com/cankecilioglu/osc2c"
+url: "https://github.com/cankecilioglu/osc2c"
+keywords:
+  - OpenSCENARIO
+  - CARLA
+  - scenario-based testing
+  - compiler
+  - py_trees
+references:
+  - type: article
+    title: "Compiling OpenSCENARIO 2.1 for Scenario-Based Testing in CARLA"
+    authors:
+      - family-names: Gamage
+        given-names: Thoshitha
+      - family-names: Gamage
+        given-names: Lasanthi
+    year: 2026
+    identifiers:
+      - type: other
+        value: "arXiv:2604.16452"
+        description: "arXiv preprint"
+    url: "https://arxiv.org/abs/2604.16452"

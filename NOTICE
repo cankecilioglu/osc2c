@@ -5,16 +5,18 @@ under the Mozilla Public License 2.0 (MPL-2.0).
 Modifications:
 - top-level `use` statement support
 - spaced physical literals (e.g., `35 kph`)
+- regeneration with ANTLR 4.13.2
+- project-specific indentation helper
 
 The following files are distributed under MPL-2.0:
 - grammar/openscenario2.g4
 - src/osc2c/frontend/generated/*.py
 
-MPL-2.0 full text: https://mozilla.org/MPL/2.0/
+A copy of the MPL-2.0 is provided in LICENSES/MPL-2.0.txt and at
+https://mozilla.org/MPL/2.0/.
 
 ASAM OpenSCENARIO DSL 2.2.0 files (grammar.ebnf, types.osc, domain.osc,
-standard.osc) are not included in this repository. They are used locally
-under external/asam/ (gitignored) for validation. Their headers state that,
-in alteration to the regular license terms, "ASAM allows unrestricted
-distribution of this standard"; the redistribution decision is still open
-(see docs/GRAMMAR_DIFF_2.2.md, section 8).
+standard.osc) are not included in this repository and are not redistributed.
+They are used locally under external/asam/ (gitignored) for validation; users
+must obtain them under the terms of the ASAM license. See
+THIRD_PARTY_NOTICES.md for the complete attribution list.

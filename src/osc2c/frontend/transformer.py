@@ -1,4 +1,4 @@
-"""Parse-tree to typed-AST transformation (Aşama 1).
+"""Parse-tree to typed-AST transformation (Stage 1).
 
 Pure syntax: every rule produces an AST node or a plain Python value
 (str for names, numbers for SI exponents). No symbol resolution here.
