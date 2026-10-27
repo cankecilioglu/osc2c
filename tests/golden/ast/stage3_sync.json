@@ -1,0 +1,442 @@
+{
+  "kind": "CompilationUnit",
+  "imports": [],
+  "uses": [
+    {
+      "kind": "UseDecl",
+      "namespaces": [
+        "stdtypes"
+      ]
+    }
+  ],
+  "declarations": [
+    {
+      "kind": "ScenarioDecl",
+      "name": "stage3_sync",
+      "inherits": null,
+      "members": [
+        {
+          "kind": "ParameterDecl",
+          "names": [
+            "hero"
+          ],
+          "type": {
+            "kind": "NamedType",
+            "name": "vehicle"
+          },
+          "default": null,
+          "constraints": [
+            {
+              "kind": "KeepConstraint",
+              "qualifier": null,
+              "expr": {
+                "kind": "BinaryOp",
+                "op": "==",
+                "left": {
+                  "kind": "FieldAccess",
+                  "target": {
+                    "kind": "ItExpr"
+                  },
+                  "field": "name"
+                },
+                "right": {
+                  "kind": "StringLiteral",
+                  "value": "hero"
+                }
+              }
+            }
+          ]
+        },
+        {
+          "kind": "ParameterDecl",
+          "names": [
+            "npc"
+          ],
+          "type": {
+            "kind": "NamedType",
+            "name": "vehicle"
+          },
+          "default": null,
+          "constraints": [
+            {
+              "kind": "KeepConstraint",
+              "qualifier": null,
+              "expr": {
+                "kind": "BinaryOp",
+                "op": "==",
+                "left": {
+                  "kind": "FieldAccess",
+                  "target": {
+                    "kind": "ItExpr"
+                  },
+                  "field": "name"
+                },
+                "right": {
+                  "kind": "StringLiteral",
+                  "value": "npc"
+                }
+              }
+            }
+          ]
+        },
+        {
+          "kind": "VariableDecl",
+          "names": [
+            "gap"
+          ],
+          "type": {
+            "kind": "NamedType",
+            "name": "length"
+          },
+          "value": {
+            "kind": "PhysicalLiteral",
+            "value": 5.0,
+            "unit": "m"
+          },
+          "sample": null
+        },
+        {
+          "kind": "VariableDecl",
+          "names": [
+            "cruise"
+          ],
+          "type": {
+            "kind": "NamedType",
+            "name": "speed"
+          },
+          "value": {
+            "kind": "PhysicalLiteral",
+            "value": 10.0,
+            "unit": "mps"
+          },
+          "sample": null
+        },
+        {
+          "kind": "DoDirective",
+          "member": {
+            "kind": "Composition",
+            "operator": "serial",
+            "args": [],
+            "members": [
+              {
+                "kind": "BehaviorInvocation",
+                "target": {
+                  "kind": "Identifier",
+                  "parts": [
+                    "hero"
+                  ]
+                },
+                "name": "assign_position",
+                "args": [],
+                "with_clause": {
+                  "kind": "BehaviorWith",
+                  "members": [
+                    {
+                      "kind": "ModifierApplication",
+                      "target": null,
+                      "name": "lane",
+                      "args": [
+                        {
+                          "kind": "PositionalArg",
+                          "value": {
+                            "kind": "IntLiteral",
+                            "value": 1
+                          }
+                        },
+                        {
+                          "kind": "NamedArg",
+                          "name": "at",
+                          "value": {
+                            "kind": "Identifier",
+                            "parts": [
+                              "start"
+                            ]
+                          }
+                        }
+                      ]
+                    },
+                    {
+                      "kind": "ModifierApplication",
+                      "target": null,
+                      "name": "speed",
+                      "args": [
+                        {
+                          "kind": "PositionalArg",
+                          "value": {
+                            "kind": "PhysicalLiteral",
+                            "value": 0.0,
+                            "unit": "kph"
+                          }
+                        },
+                        {
+                          "kind": "NamedArg",
+                          "name": "at",
+                          "value": {
+                            "kind": "Identifier",
+                            "parts": [
+                              "start"
+                            ]
+                          }
+                        }
+                      ]
+                    }
+                  ]
+                }
+              },
+              {
+                "kind": "BehaviorInvocation",
+                "target": {
+                  "kind": "Identifier",
+                  "parts": [
+                    "npc"
+                  ]
+                },
+                "name": "assign_position",
+                "args": [],
+                "with_clause": {
+                  "kind": "BehaviorWith",
+                  "members": [
+                    {
+                      "kind": "ModifierApplication",
+                      "target": null,
+                      "name": "lane",
+                      "args": [
+                        {
+                          "kind": "PositionalArg",
+                          "value": {
+                            "kind": "IntLiteral",
+                            "value": 1
+                          }
+                        },
+                        {
+                          "kind": "NamedArg",
+                          "name": "at",
+                          "value": {
+                            "kind": "Identifier",
+                            "parts": [
+                              "start"
+                            ]
+                          }
+                        }
+                      ]
+                    },
+                    {
+                      "kind": "ModifierApplication",
+                      "target": null,
+                      "name": "position",
+                      "args": [
+                        {
+                          "kind": "NamedArg",
+                          "name": "distance",
+                          "value": {
+                            "kind": "PhysicalLiteral",
+                            "value": 20.0,
+                            "unit": "m"
+                          }
+                        },
+                        {
+                          "kind": "NamedArg",
+                          "name": "ahead_of",
+                          "value": {
+                            "kind": "Identifier",
+                            "parts": [
+                              "hero"
+                            ]
+                          }
+                        },
+                        {
+                          "kind": "NamedArg",
+                          "name": "at",
+                          "value": {
+                            "kind": "Identifier",
+                            "parts": [
+                              "start"
+                            ]
+                          }
+                        }
+                      ]
+                    },
+                    {
+                      "kind": "ModifierApplication",
+                      "target": null,
+                      "name": "speed",
+                      "args": [
+                        {
+                          "kind": "PositionalArg",
+                          "value": {
+                            "kind": "PhysicalLiteral",
+                            "value": 0.0,
+                            "unit": "kph"
+                          }
+                        },
+                        {
+                          "kind": "NamedArg",
+                          "name": "at",
+                          "value": {
+                            "kind": "Identifier",
+                            "parts": [
+                              "start"
+                            ]
+                          }
+                        }
+                      ]
+                    }
+                  ]
+                }
+              },
+              {
+                "kind": "Composition",
+                "operator": "one_of",
+                "args": [],
+                "members": [
+                  {
+                    "kind": "BehaviorInvocation",
+                    "target": {
+                      "kind": "Identifier",
+                      "parts": [
+                        "hero"
+                      ]
+                    },
+                    "name": "drive",
+                    "args": [],
+                    "with_clause": {
+                      "kind": "BehaviorWith",
+                      "members": [
+                        {
+                          "kind": "ModifierApplication",
+                          "target": null,
+                          "name": "speed",
+                          "args": [
+                            {
+                              "kind": "PositionalArg",
+                              "value": {
+                                "kind": "Identifier",
+                                "parts": [
+                                  "cruise"
+                                ]
+                              }
+                            }
+                          ]
+                        }
+                      ]
+                    }
+                  },
+                  {
+                    "kind": "WaitDirective",
+                    "specification": {
+                      "kind": "EventSpec",
+                      "reference": null,
+                      "field": null,
+                      "condition": {
+                        "kind": "RiseCond",
+                        "expr": {
+                          "kind": "BinaryOp",
+                          "op": ">",
+                          "left": {
+                            "kind": "Call",
+                            "target": {
+                              "kind": "FieldAccess",
+                              "target": {
+                                "kind": "FieldAccess",
+                                "target": {
+                                  "kind": "Identifier",
+                                  "parts": [
+                                    "hero"
+                                  ]
+                                },
+                                "field": "position"
+                              },
+                              "field": "ahead_of"
+                            },
+                            "args": [
+                              {
+                                "kind": "PositionalArg",
+                                "value": {
+                                  "kind": "Identifier",
+                                  "parts": [
+                                    "npc"
+                                  ]
+                                }
+                              }
+                            ]
+                          },
+                          "right": {
+                            "kind": "UnaryOp",
+                            "op": "-",
+                            "operand": {
+                              "kind": "Identifier",
+                              "parts": [
+                                "gap"
+                              ]
+                            }
+                          }
+                        }
+                      }
+                    }
+                  }
+                ],
+                "with_clause": null
+              },
+              {
+                "kind": "EmitDirective",
+                "name": "SYNCHRONIZED",
+                "args": null
+              },
+              {
+                "kind": "WaitDirective",
+                "specification": {
+                  "kind": "EventSpec",
+                  "reference": null,
+                  "field": null,
+                  "condition": {
+                    "kind": "ElapsedCond",
+                    "expr": {
+                      "kind": "PhysicalLiteral",
+                      "value": 500.0,
+                      "unit": "ms"
+                    }
+                  }
+                }
+              },
+              {
+                "kind": "WaitDirective",
+                "specification": {
+                  "kind": "EventSpec",
+                  "reference": {
+                    "kind": "EventReference",
+                    "path": null,
+                    "name": "SYNCHRONIZED"
+                  },
+                  "field": null,
+                  "condition": null
+                }
+              },
+              {
+                "kind": "BehaviorInvocation",
+                "target": {
+                  "kind": "Identifier",
+                  "parts": [
+                    "hero"
+                  ]
+                },
+                "name": "set_lights",
+                "args": [
+                  {
+                    "kind": "NamedArg",
+                    "name": "mode",
+                    "value": {
+                      "kind": "StringLiteral",
+                      "value": "high_beam"
+                    }
+                  }
+                ],
+                "with_clause": null
+              }
+            ],
+            "with_clause": null
+          }
+        }
+      ]
+    }
+  ]
+}

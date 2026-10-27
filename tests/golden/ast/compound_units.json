@@ -1,0 +1,105 @@
+{
+  "kind": "CompilationUnit",
+  "imports": [],
+  "uses": [],
+  "declarations": [
+    {
+      "kind": "ScenarioDecl",
+      "name": "compound_units",
+      "inherits": null,
+      "members": [
+        {
+          "kind": "VariableDecl",
+          "names": [
+            "direct_speed"
+          ],
+          "type": {
+            "kind": "NamedType",
+            "name": "speed"
+          },
+          "value": {
+            "kind": "PhysicalLiteral",
+            "value": 1.0,
+            "unit": "m/s"
+          },
+          "sample": null
+        },
+        {
+          "kind": "VariableDecl",
+          "names": [
+            "road_speed"
+          ],
+          "type": {
+            "kind": "NamedType",
+            "name": "speed"
+          },
+          "value": {
+            "kind": "PhysicalLiteral",
+            "value": 1.0,
+            "unit": "km/h"
+          },
+          "sample": null
+        },
+        {
+          "kind": "VariableDecl",
+          "names": [
+            "deceleration"
+          ],
+          "type": {
+            "kind": "NamedType",
+            "name": "acceleration"
+          },
+          "value": {
+            "kind": "PhysicalLiteral",
+            "value": 1.0,
+            "unit": "m/s^2"
+          },
+          "sample": null
+        },
+        {
+          "kind": "VariableDecl",
+          "names": [
+            "cadence"
+          ],
+          "type": {
+            "kind": "NamedType",
+            "name": "frequency"
+          },
+          "value": {
+            "kind": "PhysicalLiteral",
+            "value": 1.0,
+            "unit": "s^-1"
+          },
+          "sample": null
+        },
+        {
+          "kind": "DoDirective",
+          "member": {
+            "kind": "Composition",
+            "operator": "serial",
+            "args": [],
+            "members": [
+              {
+                "kind": "WaitDirective",
+                "specification": {
+                  "kind": "EventSpec",
+                  "reference": null,
+                  "field": null,
+                  "condition": {
+                    "kind": "ElapsedCond",
+                    "expr": {
+                      "kind": "PhysicalLiteral",
+                      "value": 100.0,
+                      "unit": "ms"
+                    }
+                  }
+                }
+              }
+            ],
+            "with_clause": null
+          }
+        }
+      ]
+    }
+  ]
+}

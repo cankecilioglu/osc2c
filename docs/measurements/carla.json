@@ -1,0 +1,936 @@
+{
+  "carla": {
+    "mode": "carla",
+    "repeat": 20,
+    "scenario": "scenarios\\carla\\cut_in.osc",
+    "successes": 20,
+    "cut_in_detected": 20,
+    "geometry_ok": 20,
+    "unique_hashes": 1,
+    "deterministic": true,
+    "trace_hash": "afaf910cd26b9c675f048d368ff177dce6a1132309df22031e836474a3f9c79b",
+    "cut_in_time": {
+      "count": 20,
+      "mean": 3.25,
+      "min": 3.25,
+      "median": 3.25,
+      "p95": 3.25,
+      "max": 3.25
+    },
+    "lateral_abs": {
+      "count": 20,
+      "mean": 1.2978,
+      "min": 1.2978,
+      "median": 1.2978,
+      "p95": 1.2978,
+      "max": 1.2978
+    },
+    "heading_gap": {
+      "count": 20,
+      "mean": 6.7218,
+      "min": 6.7218,
+      "median": 6.7218,
+      "p95": 6.7218,
+      "max": 6.7218
+    },
+    "ahead": {
+      "count": 20,
+      "mean": -12.1548,
+      "min": -12.1548,
+      "median": -12.1548,
+      "p95": -12.1548,
+      "max": -12.1548
+    },
+    "initial_lateral": {
+      "count": 20,
+      "mean": -3.5,
+      "min": -3.5,
+      "median": -3.5,
+      "p95": -3.5,
+      "max": -3.5
+    },
+    "min_distance": {
+      "count": 20,
+      "mean": 11.938,
+      "min": 11.938,
+      "median": 11.938,
+      "p95": 11.938,
+      "max": 11.938
+    },
+    "min_ttc": {
+      "count": 20,
+      "mean": 24.4897,
+      "min": 24.4897,
+      "median": 24.4897,
+      "p95": 24.4897,
+      "max": 24.4897
+    },
+    "collisions": 0,
+    "ticks": {
+      "count": 20,
+      "mean": 108.0,
+      "min": 108.0,
+      "median": 108.0,
+      "p95": 108.0,
+      "max": 108.0
+    },
+    "tick_latency_median_ms": {
+      "count": 20,
+      "mean": 3.1463,
+      "min": 3.0945,
+      "median": 3.1432,
+      "p95": 3.2147,
+      "max": 3.2346
+    },
+    "compile_latency_ms": {
+      "count": 20,
+      "mean": 215.5225,
+      "min": 12.3235,
+      "median": 13.5549,
+      "p95": 226.2498,
+      "max": 4041.3985
+    },
+    "runs": [
+      {
+        "status": "SUCCESS",
+        "ticks": 108,
+        "sim_time": 5.35,
+        "events": [
+          "CUT_IN"
+        ],
+        "initial": {
+          "lateral": -3.5,
+          "ahead": -11.999976
+        },
+        "cut_in": {
+          "time": 3.25,
+          "lateral": -1.297777,
+          "heading_gap": 6.721766,
+          "ahead": -12.154834
+        },
+        "trace_hash": "afaf910cd26b9c675f048d368ff177dce6a1132309df22031e836474a3f9c79b",
+        "tick_latency": {
+          "count": 107,
+          "mean": 3.29,
+          "min": 2.233,
+          "median": 3.2346,
+          "p95": 4.0367,
+          "max": 4.6064
+        },
+        "compile": {
+          "parse_ms": 370.3353,
+          "analyze_ms": 0.5548,
+          "compile_ms": 4041.3985,
+          "total_ms": 4412.2886
+        },
+        "final": {
+          "hero_speed": 2.966754,
+          "hero_lights": "high_beam",
+          "npc_speed": 6.719735
+        },
+        "min_distance": 11.937955,
+        "min_ttc": 24.489748,
+        "collision": false,
+        "geometry_ok": true
+      },
+      {
+        "status": "SUCCESS",
+        "ticks": 108,
+        "sim_time": 5.35,
+        "events": [
+          "CUT_IN"
+        ],
+        "initial": {
+          "lateral": -3.5,
+          "ahead": -11.999976
+        },
+        "cut_in": {
+          "time": 3.25,
+          "lateral": -1.297777,
+          "heading_gap": 6.721766,
+          "ahead": -12.154834
+        },
+        "trace_hash": "afaf910cd26b9c675f048d368ff177dce6a1132309df22031e836474a3f9c79b",
+        "tick_latency": {
+          "count": 107,
+          "mean": 3.1588,
+          "min": 1.0862,
+          "median": 3.1689,
+          "p95": 3.7611,
+          "max": 5.767
+        },
+        "compile": {
+          "parse_ms": 125.0029,
+          "analyze_ms": 0.525,
+          "compile_ms": 14.4784,
+          "total_ms": 140.0063
+        },
+        "final": {
+          "hero_speed": 2.966754,
+          "hero_lights": "high_beam",
+          "npc_speed": 6.719735
+        },
+        "min_distance": 11.937955,
+        "min_ttc": 24.489748,
+        "collision": false,
+        "geometry_ok": true
+      },
+      {
+        "status": "SUCCESS",
+        "ticks": 108,
+        "sim_time": 5.35,
+        "events": [
+          "CUT_IN"
+        ],
+        "initial": {
+          "lateral": -3.5,
+          "ahead": -11.999976
+        },
+        "cut_in": {
+          "time": 3.25,
+          "lateral": -1.297777,
+          "heading_gap": 6.721766,
+          "ahead": -12.154834
+        },
+        "trace_hash": "afaf910cd26b9c675f048d368ff177dce6a1132309df22031e836474a3f9c79b",
+        "tick_latency": {
+          "count": 107,
+          "mean": 3.1598,
+          "min": 1.8235,
+          "median": 3.1671,
+          "p95": 3.7998,
+          "max": 4.9686
+        },
+        "compile": {
+          "parse_ms": 125.3706,
+          "analyze_ms": 0.5412,
+          "compile_ms": 25.4525,
+          "total_ms": 151.3643
+        },
+        "final": {
+          "hero_speed": 2.966754,
+          "hero_lights": "high_beam",
+          "npc_speed": 6.719735
+        },
+        "min_distance": 11.937955,
+        "min_ttc": 24.489748,
+        "collision": false,
+        "geometry_ok": true
+      },
+      {
+        "status": "SUCCESS",
+        "ticks": 108,
+        "sim_time": 5.35,
+        "events": [
+          "CUT_IN"
+        ],
+        "initial": {
+          "lateral": -3.5,
+          "ahead": -11.999976
+        },
+        "cut_in": {
+          "time": 3.25,
+          "lateral": -1.297777,
+          "heading_gap": 6.721766,
+          "ahead": -12.154834
+        },
+        "trace_hash": "afaf910cd26b9c675f048d368ff177dce6a1132309df22031e836474a3f9c79b",
+        "tick_latency": {
+          "count": 107,
+          "mean": 3.1632,
+          "min": 1.1535,
+          "median": 3.1163,
+          "p95": 3.8715,
+          "max": 5.7446
+        },
+        "compile": {
+          "parse_ms": 123.6912,
+          "analyze_ms": 0.5241,
+          "compile_ms": 14.6058,
+          "total_ms": 138.8211
+        },
+        "final": {
+          "hero_speed": 2.966754,
+          "hero_lights": "high_beam",
+          "npc_speed": 6.719735
+        },
+        "min_distance": 11.937955,
+        "min_ttc": 24.489748,
+        "collision": false,
+        "geometry_ok": true
+      },
+      {
+        "status": "SUCCESS",
+        "ticks": 108,
+        "sim_time": 5.35,
+        "events": [
+          "CUT_IN"
+        ],
+        "initial": {
+          "lateral": -3.5,
+          "ahead": -11.999976
+        },
+        "cut_in": {
+          "time": 3.25,
+          "lateral": -1.297777,
+          "heading_gap": 6.721766,
+          "ahead": -12.154834
+        },
+        "trace_hash": "afaf910cd26b9c675f048d368ff177dce6a1132309df22031e836474a3f9c79b",
+        "tick_latency": {
+          "count": 107,
+          "mean": 3.1562,
+          "min": 1.0466,
+          "median": 3.1517,
+          "p95": 3.9948,
+          "max": 5.6916
+        },
+        "compile": {
+          "parse_ms": 124.423,
+          "analyze_ms": 0.544,
+          "compile_ms": 13.4269,
+          "total_ms": 138.3939
+        },
+        "final": {
+          "hero_speed": 2.966754,
+          "hero_lights": "high_beam",
+          "npc_speed": 6.719735
+        },
+        "min_distance": 11.937955,
+        "min_ttc": 24.489748,
+        "collision": false,
+        "geometry_ok": true
+      },
+      {
+        "status": "SUCCESS",
+        "ticks": 108,
+        "sim_time": 5.35,
+        "events": [
+          "CUT_IN"
+        ],
+        "initial": {
+          "lateral": -3.5,
+          "ahead": -11.999976
+        },
+        "cut_in": {
+          "time": 3.25,
+          "lateral": -1.297777,
+          "heading_gap": 6.721766,
+          "ahead": -12.154834
+        },
+        "trace_hash": "afaf910cd26b9c675f048d368ff177dce6a1132309df22031e836474a3f9c79b",
+        "tick_latency": {
+          "count": 107,
+          "mean": 3.1596,
+          "min": 1.7197,
+          "median": 3.1713,
+          "p95": 3.7334,
+          "max": 4.5785
+        },
+        "compile": {
+          "parse_ms": 124.4002,
+          "analyze_ms": 0.5366,
+          "compile_ms": 13.7591,
+          "total_ms": 138.6959
+        },
+        "final": {
+          "hero_speed": 2.966754,
+          "hero_lights": "high_beam",
+          "npc_speed": 6.719735
+        },
+        "min_distance": 11.937955,
+        "min_ttc": 24.489748,
+        "collision": false,
+        "geometry_ok": true
+      },
+      {
+        "status": "SUCCESS",
+        "ticks": 108,
+        "sim_time": 5.35,
+        "events": [
+          "CUT_IN"
+        ],
+        "initial": {
+          "lateral": -3.5,
+          "ahead": -11.999976
+        },
+        "cut_in": {
+          "time": 3.25,
+          "lateral": -1.297777,
+          "heading_gap": 6.721766,
+          "ahead": -12.154834
+        },
+        "trace_hash": "afaf910cd26b9c675f048d368ff177dce6a1132309df22031e836474a3f9c79b",
+        "tick_latency": {
+          "count": 107,
+          "mean": 3.1636,
+          "min": 0.9277,
+          "median": 3.1328,
+          "p95": 3.8968,
+          "max": 5.8193
+        },
+        "compile": {
+          "parse_ms": 139.7579,
+          "analyze_ms": 0.4958,
+          "compile_ms": 14.3024,
+          "total_ms": 154.5561
+        },
+        "final": {
+          "hero_speed": 2.966754,
+          "hero_lights": "high_beam",
+          "npc_speed": 6.719735
+        },
+        "min_distance": 11.937955,
+        "min_ttc": 24.489748,
+        "collision": false,
+        "geometry_ok": true
+      },
+      {
+        "status": "SUCCESS",
+        "ticks": 108,
+        "sim_time": 5.35,
+        "events": [
+          "CUT_IN"
+        ],
+        "initial": {
+          "lateral": -3.5,
+          "ahead": -11.999976
+        },
+        "cut_in": {
+          "time": 3.25,
+          "lateral": -1.297777,
+          "heading_gap": 6.721766,
+          "ahead": -12.154834
+        },
+        "trace_hash": "afaf910cd26b9c675f048d368ff177dce6a1132309df22031e836474a3f9c79b",
+        "tick_latency": {
+          "count": 107,
+          "mean": 3.1676,
+          "min": 1.1102,
+          "median": 3.1595,
+          "p95": 3.8211,
+          "max": 6.9921
+        },
+        "compile": {
+          "parse_ms": 121.4233,
+          "analyze_ms": 0.5068,
+          "compile_ms": 13.297,
+          "total_ms": 135.2271
+        },
+        "final": {
+          "hero_speed": 2.966754,
+          "hero_lights": "high_beam",
+          "npc_speed": 6.719735
+        },
+        "min_distance": 11.937955,
+        "min_ttc": 24.489748,
+        "collision": false,
+        "geometry_ok": true
+      },
+      {
+        "status": "SUCCESS",
+        "ticks": 108,
+        "sim_time": 5.35,
+        "events": [
+          "CUT_IN"
+        ],
+        "initial": {
+          "lateral": -3.5,
+          "ahead": -11.999976
+        },
+        "cut_in": {
+          "time": 3.25,
+          "lateral": -1.297777,
+          "heading_gap": 6.721766,
+          "ahead": -12.154834
+        },
+        "trace_hash": "afaf910cd26b9c675f048d368ff177dce6a1132309df22031e836474a3f9c79b",
+        "tick_latency": {
+          "count": 107,
+          "mean": 3.1538,
+          "min": 1.1475,
+          "median": 3.1733,
+          "p95": 3.6987,
+          "max": 5.4089
+        },
+        "compile": {
+          "parse_ms": 127.3837,
+          "analyze_ms": 0.5064,
+          "compile_ms": 12.7442,
+          "total_ms": 140.6343
+        },
+        "final": {
+          "hero_speed": 2.966754,
+          "hero_lights": "high_beam",
+          "npc_speed": 6.719735
+        },
+        "min_distance": 11.937955,
+        "min_ttc": 24.489748,
+        "collision": false,
+        "geometry_ok": true
+      },
+      {
+        "status": "SUCCESS",
+        "ticks": 108,
+        "sim_time": 5.35,
+        "events": [
+          "CUT_IN"
+        ],
+        "initial": {
+          "lateral": -3.5,
+          "ahead": -11.999976
+        },
+        "cut_in": {
+          "time": 3.25,
+          "lateral": -1.297777,
+          "heading_gap": 6.721766,
+          "ahead": -12.154834
+        },
+        "trace_hash": "afaf910cd26b9c675f048d368ff177dce6a1132309df22031e836474a3f9c79b",
+        "tick_latency": {
+          "count": 107,
+          "mean": 3.1612,
+          "min": 1.9747,
+          "median": 3.1415,
+          "p95": 3.7498,
+          "max": 4.1606
+        },
+        "compile": {
+          "parse_ms": 122.5126,
+          "analyze_ms": 0.4747,
+          "compile_ms": 12.9611,
+          "total_ms": 135.9484
+        },
+        "final": {
+          "hero_speed": 2.966754,
+          "hero_lights": "high_beam",
+          "npc_speed": 6.719735
+        },
+        "min_distance": 11.937955,
+        "min_ttc": 24.489748,
+        "collision": false,
+        "geometry_ok": true
+      },
+      {
+        "status": "SUCCESS",
+        "ticks": 108,
+        "sim_time": 5.35,
+        "events": [
+          "CUT_IN"
+        ],
+        "initial": {
+          "lateral": -3.5,
+          "ahead": -11.999976
+        },
+        "cut_in": {
+          "time": 3.25,
+          "lateral": -1.297777,
+          "heading_gap": 6.721766,
+          "ahead": -12.154834
+        },
+        "trace_hash": "afaf910cd26b9c675f048d368ff177dce6a1132309df22031e836474a3f9c79b",
+        "tick_latency": {
+          "count": 107,
+          "mean": 3.146,
+          "min": 1.3551,
+          "median": 3.1449,
+          "p95": 3.7309,
+          "max": 4.3934
+        },
+        "compile": {
+          "parse_ms": 125.4135,
+          "analyze_ms": 0.5077,
+          "compile_ms": 12.5622,
+          "total_ms": 138.4834
+        },
+        "final": {
+          "hero_speed": 2.966754,
+          "hero_lights": "high_beam",
+          "npc_speed": 6.719735
+        },
+        "min_distance": 11.937955,
+        "min_ttc": 24.489748,
+        "collision": false,
+        "geometry_ok": true
+      },
+      {
+        "status": "SUCCESS",
+        "ticks": 108,
+        "sim_time": 5.35,
+        "events": [
+          "CUT_IN"
+        ],
+        "initial": {
+          "lateral": -3.5,
+          "ahead": -11.999976
+        },
+        "cut_in": {
+          "time": 3.25,
+          "lateral": -1.297777,
+          "heading_gap": 6.721766,
+          "ahead": -12.154834
+        },
+        "trace_hash": "afaf910cd26b9c675f048d368ff177dce6a1132309df22031e836474a3f9c79b",
+        "tick_latency": {
+          "count": 107,
+          "mean": 3.2532,
+          "min": 1.3874,
+          "median": 3.2137,
+          "p95": 3.9979,
+          "max": 6.9298
+        },
+        "compile": {
+          "parse_ms": 121.9502,
+          "analyze_ms": 0.492,
+          "compile_ms": 13.2444,
+          "total_ms": 135.6866
+        },
+        "final": {
+          "hero_speed": 2.966754,
+          "hero_lights": "high_beam",
+          "npc_speed": 6.719735
+        },
+        "min_distance": 11.937955,
+        "min_ttc": 24.489748,
+        "collision": false,
+        "geometry_ok": true
+      },
+      {
+        "status": "SUCCESS",
+        "ticks": 108,
+        "sim_time": 5.35,
+        "events": [
+          "CUT_IN"
+        ],
+        "initial": {
+          "lateral": -3.5,
+          "ahead": -11.999976
+        },
+        "cut_in": {
+          "time": 3.25,
+          "lateral": -1.297777,
+          "heading_gap": 6.721766,
+          "ahead": -12.154834
+        },
+        "trace_hash": "afaf910cd26b9c675f048d368ff177dce6a1132309df22031e836474a3f9c79b",
+        "tick_latency": {
+          "count": 107,
+          "mean": 3.1282,
+          "min": 1.4813,
+          "median": 3.1094,
+          "p95": 3.6433,
+          "max": 5.2071
+        },
+        "compile": {
+          "parse_ms": 142.2812,
+          "analyze_ms": 0.7568,
+          "compile_ms": 14.0522,
+          "total_ms": 157.0902
+        },
+        "final": {
+          "hero_speed": 2.966754,
+          "hero_lights": "high_beam",
+          "npc_speed": 6.719735
+        },
+        "min_distance": 11.937955,
+        "min_ttc": 24.489748,
+        "collision": false,
+        "geometry_ok": true
+      },
+      {
+        "status": "SUCCESS",
+        "ticks": 108,
+        "sim_time": 5.35,
+        "events": [
+          "CUT_IN"
+        ],
+        "initial": {
+          "lateral": -3.5,
+          "ahead": -11.999976
+        },
+        "cut_in": {
+          "time": 3.25,
+          "lateral": -1.297777,
+          "heading_gap": 6.721766,
+          "ahead": -12.154834
+        },
+        "trace_hash": "afaf910cd26b9c675f048d368ff177dce6a1132309df22031e836474a3f9c79b",
+        "tick_latency": {
+          "count": 107,
+          "mean": 3.1247,
+          "min": 1.1957,
+          "median": 3.1333,
+          "p95": 3.9057,
+          "max": 5.7052
+        },
+        "compile": {
+          "parse_ms": 122.0901,
+          "analyze_ms": 0.6442,
+          "compile_ms": 13.9307,
+          "total_ms": 136.665
+        },
+        "final": {
+          "hero_speed": 2.966754,
+          "hero_lights": "high_beam",
+          "npc_speed": 6.719735
+        },
+        "min_distance": 11.937955,
+        "min_ttc": 24.489748,
+        "collision": false,
+        "geometry_ok": true
+      },
+      {
+        "status": "SUCCESS",
+        "ticks": 108,
+        "sim_time": 5.35,
+        "events": [
+          "CUT_IN"
+        ],
+        "initial": {
+          "lateral": -3.5,
+          "ahead": -11.999976
+        },
+        "cut_in": {
+          "time": 3.25,
+          "lateral": -1.297777,
+          "heading_gap": 6.721766,
+          "ahead": -12.154834
+        },
+        "trace_hash": "afaf910cd26b9c675f048d368ff177dce6a1132309df22031e836474a3f9c79b",
+        "tick_latency": {
+          "count": 107,
+          "mean": 3.1239,
+          "min": 0.9972,
+          "median": 3.0945,
+          "p95": 3.7933,
+          "max": 5.6587
+        },
+        "compile": {
+          "parse_ms": 121.8979,
+          "analyze_ms": 0.5099,
+          "compile_ms": 13.6238,
+          "total_ms": 136.0316
+        },
+        "final": {
+          "hero_speed": 2.966754,
+          "hero_lights": "high_beam",
+          "npc_speed": 6.719735
+        },
+        "min_distance": 11.937955,
+        "min_ttc": 24.489748,
+        "collision": false,
+        "geometry_ok": true
+      },
+      {
+        "status": "SUCCESS",
+        "ticks": 108,
+        "sim_time": 5.35,
+        "events": [
+          "CUT_IN"
+        ],
+        "initial": {
+          "lateral": -3.5,
+          "ahead": -11.999976
+        },
+        "cut_in": {
+          "time": 3.25,
+          "lateral": -1.297777,
+          "heading_gap": 6.721766,
+          "ahead": -12.154834
+        },
+        "trace_hash": "afaf910cd26b9c675f048d368ff177dce6a1132309df22031e836474a3f9c79b",
+        "tick_latency": {
+          "count": 107,
+          "mean": 3.1219,
+          "min": 1.3795,
+          "median": 3.103,
+          "p95": 3.7182,
+          "max": 5.1198
+        },
+        "compile": {
+          "parse_ms": 122.1962,
+          "analyze_ms": 0.4879,
+          "compile_ms": 12.7927,
+          "total_ms": 135.4768
+        },
+        "final": {
+          "hero_speed": 2.966754,
+          "hero_lights": "high_beam",
+          "npc_speed": 6.719735
+        },
+        "min_distance": 11.937955,
+        "min_ttc": 24.489748,
+        "collision": false,
+        "geometry_ok": true
+      },
+      {
+        "status": "SUCCESS",
+        "ticks": 108,
+        "sim_time": 5.35,
+        "events": [
+          "CUT_IN"
+        ],
+        "initial": {
+          "lateral": -3.5,
+          "ahead": -11.999976
+        },
+        "cut_in": {
+          "time": 3.25,
+          "lateral": -1.297777,
+          "heading_gap": 6.721766,
+          "ahead": -12.154834
+        },
+        "trace_hash": "afaf910cd26b9c675f048d368ff177dce6a1132309df22031e836474a3f9c79b",
+        "tick_latency": {
+          "count": 107,
+          "mean": 3.3254,
+          "min": 0.9252,
+          "median": 3.1175,
+          "p95": 3.6374,
+          "max": 28.8964
+        },
+        "compile": {
+          "parse_ms": 119.7469,
+          "analyze_ms": 0.4911,
+          "compile_ms": 13.486,
+          "total_ms": 133.724
+        },
+        "final": {
+          "hero_speed": 2.966754,
+          "hero_lights": "high_beam",
+          "npc_speed": 6.719735
+        },
+        "min_distance": 11.937955,
+        "min_ttc": 24.489748,
+        "collision": false,
+        "geometry_ok": true
+      },
+      {
+        "status": "SUCCESS",
+        "ticks": 108,
+        "sim_time": 5.35,
+        "events": [
+          "CUT_IN"
+        ],
+        "initial": {
+          "lateral": -3.5,
+          "ahead": -11.999976
+        },
+        "cut_in": {
+          "time": 3.25,
+          "lateral": -1.297777,
+          "heading_gap": 6.721766,
+          "ahead": -12.154834
+        },
+        "trace_hash": "afaf910cd26b9c675f048d368ff177dce6a1132309df22031e836474a3f9c79b",
+        "tick_latency": {
+          "count": 107,
+          "mean": 3.1649,
+          "min": 1.0642,
+          "median": 3.1453,
+          "p95": 3.8428,
+          "max": 10.9005
+        },
+        "compile": {
+          "parse_ms": 120.4834,
+          "analyze_ms": 0.413,
+          "compile_ms": 13.0445,
+          "total_ms": 133.9409
+        },
+        "final": {
+          "hero_speed": 2.966754,
+          "hero_lights": "high_beam",
+          "npc_speed": 6.719735
+        },
+        "min_distance": 11.937955,
+        "min_ttc": 24.489748,
+        "collision": false,
+        "geometry_ok": true
+      },
+      {
+        "status": "SUCCESS",
+        "ticks": 108,
+        "sim_time": 5.35,
+        "events": [
+          "CUT_IN"
+        ],
+        "initial": {
+          "lateral": -3.5,
+          "ahead": -11.999976
+        },
+        "cut_in": {
+          "time": 3.25,
+          "lateral": -1.297777,
+          "heading_gap": 6.721766,
+          "ahead": -12.154834
+        },
+        "trace_hash": "afaf910cd26b9c675f048d368ff177dce6a1132309df22031e836474a3f9c79b",
+        "tick_latency": {
+          "count": 107,
+          "mean": 3.124,
+          "min": 1.1289,
+          "median": 3.1138,
+          "p95": 3.7,
+          "max": 4.4889
+        },
+        "compile": {
+          "parse_ms": 120.1404,
+          "analyze_ms": 0.5141,
+          "compile_ms": 12.3235,
+          "total_ms": 132.978
+        },
+        "final": {
+          "hero_speed": 2.966754,
+          "hero_lights": "high_beam",
+          "npc_speed": 6.719735
+        },
+        "min_distance": 11.937955,
+        "min_ttc": 24.489748,
+        "collision": false,
+        "geometry_ok": true
+      },
+      {
+        "status": "SUCCESS",
+        "ticks": 108,
+        "sim_time": 5.35,
+        "events": [
+          "CUT_IN"
+        ],
+        "initial": {
+          "lateral": -3.5,
+          "ahead": -11.999976
+        },
+        "cut_in": {
+          "time": 3.25,
+          "lateral": -1.297777,
+          "heading_gap": 6.721766,
+          "ahead": -12.154834
+        },
+        "trace_hash": "afaf910cd26b9c675f048d368ff177dce6a1132309df22031e836474a3f9c79b",
+        "tick_latency": {
+          "count": 107,
+          "mean": 3.1477,
+          "min": 1.4647,
+          "median": 3.1338,
+          "p95": 3.7809,
+          "max": 4.2437
+        },
+        "compile": {
+          "parse_ms": 133.8977,
+          "analyze_ms": 0.5536,
+          "compile_ms": 14.9651,
+          "total_ms": 149.4164
+        },
+        "final": {
+          "hero_speed": 2.966754,
+          "hero_lights": "high_beam",
+          "npc_speed": 6.719735
+        },
+        "min_distance": 11.937955,
+        "min_ttc": 24.489748,
+        "collision": false,
+        "geometry_ok": true
+      }
+    ]
+  }
+}

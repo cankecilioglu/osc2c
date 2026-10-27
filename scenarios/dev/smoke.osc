@@ -1,0 +1,11 @@
+import "domain.osc"
+use stdtypes
+
+scenario smoke:
+    hero : vehicle with:
+        keep(it.name == "hero")
+        keep(it.model == "vehicle.tesla.model3")
+
+    do serial:
+        hero.drive() with:
+            speed(10 kph)

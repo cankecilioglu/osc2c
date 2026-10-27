@@ -1,0 +1,125 @@
+{
+  "kind": "CompilationUnit",
+  "imports": [],
+  "uses": [],
+  "declarations": [
+    {
+      "kind": "ScenarioDecl",
+      "name": "s",
+      "inherits": null,
+      "members": [
+        {
+          "kind": "ParameterDecl",
+          "names": [
+            "hero"
+          ],
+          "type": {
+            "kind": "NamedType",
+            "name": "vehicle"
+          },
+          "default": null,
+          "constraints": []
+        },
+        {
+          "kind": "VariableDecl",
+          "names": [
+            "v"
+          ],
+          "type": {
+            "kind": "NamedType",
+            "name": "speed"
+          },
+          "value": {
+            "kind": "PhysicalLiteral",
+            "value": 35.0,
+            "unit": "kph"
+          },
+          "sample": null
+        },
+        {
+          "kind": "DoDirective",
+          "member": {
+            "kind": "Composition",
+            "operator": "serial",
+            "args": [],
+            "members": [
+              {
+                "kind": "BehaviorInvocation",
+                "target": {
+                  "kind": "Identifier",
+                  "parts": [
+                    "hero"
+                  ]
+                },
+                "name": "assign_position",
+                "args": [],
+                "with_clause": {
+                  "kind": "BehaviorWith",
+                  "members": [
+                    {
+                      "kind": "ModifierApplication",
+                      "target": null,
+                      "name": "lane",
+                      "args": [
+                        {
+                          "kind": "PositionalArg",
+                          "value": {
+                            "kind": "IntLiteral",
+                            "value": 1
+                          }
+                        },
+                        {
+                          "kind": "NamedArg",
+                          "name": "at",
+                          "value": {
+                            "kind": "Identifier",
+                            "parts": [
+                              "start"
+                            ]
+                          }
+                        }
+                      ]
+                    }
+                  ]
+                }
+              },
+              {
+                "kind": "BehaviorInvocation",
+                "target": {
+                  "kind": "Identifier",
+                  "parts": [
+                    "hero"
+                  ]
+                },
+                "name": "drive",
+                "args": [],
+                "with_clause": {
+                  "kind": "BehaviorWith",
+                  "members": [
+                    {
+                      "kind": "ModifierApplication",
+                      "target": null,
+                      "name": "speed",
+                      "args": [
+                        {
+                          "kind": "PositionalArg",
+                          "value": {
+                            "kind": "Identifier",
+                            "parts": [
+                              "v"
+                            ]
+                          }
+                        }
+                      ]
+                    }
+                  ]
+                }
+              }
+            ],
+            "with_clause": null
+          }
+        }
+      ]
+    }
+  ]
+}

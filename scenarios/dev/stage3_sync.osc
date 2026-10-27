@@ -1,0 +1,29 @@
+use stdtypes
+
+scenario stage3_sync:
+    hero : vehicle with:
+        keep(it.name == "hero")
+    npc : vehicle with:
+        keep(it.name == "npc")
+
+    var gap : length = 5 m
+    var cruise : speed = 10 mps
+
+    do serial:
+        hero.assign_position() with:
+            lane(1, at: start)
+            speed(0 kph, at: start)
+        npc.assign_position() with:
+            lane(1, at: start)
+            position(distance: 20 m, ahead_of: hero, at: start)
+            speed(0 kph, at: start)
+
+        one_of:
+            hero.drive() with:
+                speed(cruise)
+            wait rise(hero.position.ahead_of(npc) > -gap)
+
+        emit SYNCHRONIZED
+        wait elapsed(500 ms)
+        wait @SYNCHRONIZED
+        hero.set_lights(mode: "high_beam")

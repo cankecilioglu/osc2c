@@ -1,0 +1,32 @@
+use stdtypes
+
+scenario cut_in:
+    hero : vehicle with:
+        keep(it.name == "hero")
+    npc : vehicle with:
+        keep(it.name == "npc")
+
+    var cruise : speed = 12 mps
+    var slow : speed = 6 mps
+
+    do serial:
+        hero.assign_position() with:
+            speed(0 kph, at: start)
+        npc.assign_position() with:
+            position(distance: 12 m, ahead_of: hero, at: start)
+            lane(side: left, side_of: hero, at: start)
+            speed(0 kph, at: start)
+        one_of:
+            serial:
+                wait elapsed(2 s)
+                npc.change_lane(num_of_lanes: 1, side: right)
+                emit CUT_IN
+                wait elapsed(1 s)
+            hero.drive() with:
+                speed(cruise)
+            npc.drive() with:
+                speed(cruise)
+        hero.set_lights(mode: "high_beam")
+        hero.change_speed(target: 0 mps)
+        npc.change_speed(target: slow)
+        wait elapsed(1 s)

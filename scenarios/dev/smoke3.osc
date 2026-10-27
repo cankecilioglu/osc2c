@@ -1,0 +1,9 @@
+scenario s:
+    hero : vehicle
+    var v : speed = 35kph
+
+    do serial:
+        hero.assign_position() with:
+            lane(1, at: start)
+        hero.drive() with:
+            speed(v)

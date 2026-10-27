@@ -1,0 +1,30 @@
+use stdtypes
+
+scenario lane_change_speed:
+    hero : vehicle with:
+        keep(it.name == "hero")
+    npc : vehicle with:
+        keep(it.name == "npc")
+
+    var fast : speed = 14 mps
+    var cruise : speed = 10 mps
+
+    do serial:
+        hero.assign_position() with:
+            speed(0 mps, at: start)
+        npc.assign_position() with:
+            lane(side: left, at: start)
+            position(distance: 10 m, ahead_of: hero, at: start)
+            speed(0 mps, at: start)
+
+        one_of:
+            serial:
+                wait elapsed(0.2 s)
+                hero.change_lane(num_of_lanes: 1, side: left)
+                emit LANE_CHANGED
+                hero.change_speed(target: fast)
+                wait elapsed(1 s)
+            npc.drive() with:
+                speed(cruise)
+
+        emit DONE

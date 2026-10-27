@@ -1,0 +1,269 @@
+{
+  "kind": "CompilationUnit",
+  "imports": [],
+  "uses": [
+    {
+      "kind": "UseDecl",
+      "namespaces": [
+        "stdtypes"
+      ]
+    }
+  ],
+  "declarations": [
+    {
+      "kind": "ActionDecl",
+      "name": "announce",
+      "inherits": null,
+      "members": [
+        {
+          "kind": "DoDirective",
+          "member": {
+            "kind": "Composition",
+            "operator": "serial",
+            "args": [],
+            "members": [
+              {
+                "kind": "EmitDirective",
+                "name": "READY",
+                "args": null
+              }
+            ],
+            "with_clause": null
+          }
+        }
+      ]
+    },
+    {
+      "kind": "ActionDecl",
+      "name": "hold",
+      "inherits": null,
+      "members": [
+        {
+          "kind": "ParameterDecl",
+          "names": [
+            "span"
+          ],
+          "type": {
+            "kind": "NamedType",
+            "name": "time"
+          },
+          "default": {
+            "kind": "PhysicalLiteral",
+            "value": 100.0,
+            "unit": "ms"
+          },
+          "constraints": []
+        },
+        {
+          "kind": "DoDirective",
+          "member": {
+            "kind": "Composition",
+            "operator": "serial",
+            "args": [],
+            "members": [
+              {
+                "kind": "WaitDirective",
+                "specification": {
+                  "kind": "EventSpec",
+                  "reference": null,
+                  "field": null,
+                  "condition": {
+                    "kind": "ElapsedCond",
+                    "expr": {
+                      "kind": "Identifier",
+                      "parts": [
+                        "span"
+                      ]
+                    }
+                  }
+                }
+              }
+            ],
+            "with_clause": null
+          }
+        }
+      ]
+    },
+    {
+      "kind": "ActionDecl",
+      "name": "cruise",
+      "inherits": null,
+      "members": [
+        {
+          "kind": "ParameterDecl",
+          "names": [
+            "target"
+          ],
+          "type": {
+            "kind": "NamedType",
+            "name": "vehicle"
+          },
+          "default": null,
+          "constraints": []
+        },
+        {
+          "kind": "DoDirective",
+          "member": {
+            "kind": "Composition",
+            "operator": "serial",
+            "args": [],
+            "members": [
+              {
+                "kind": "BehaviorInvocation",
+                "target": {
+                  "kind": "Identifier",
+                  "parts": [
+                    "target"
+                  ]
+                },
+                "name": "drive",
+                "args": [],
+                "with_clause": {
+                  "kind": "BehaviorWith",
+                  "members": [
+                    {
+                      "kind": "ModifierApplication",
+                      "target": null,
+                      "name": "speed",
+                      "args": [
+                        {
+                          "kind": "PositionalArg",
+                          "value": {
+                            "kind": "PhysicalLiteral",
+                            "value": 5.0,
+                            "unit": "mps"
+                          }
+                        }
+                      ]
+                    },
+                    {
+                      "kind": "UntilDirective",
+                      "specification": {
+                        "kind": "EventSpec",
+                        "reference": null,
+                        "field": null,
+                        "condition": {
+                          "kind": "ElapsedCond",
+                          "expr": {
+                            "kind": "PhysicalLiteral",
+                            "value": 100.0,
+                            "unit": "ms"
+                          }
+                        }
+                      }
+                    }
+                  ]
+                }
+              }
+            ],
+            "with_clause": null
+          }
+        }
+      ]
+    },
+    {
+      "kind": "ScenarioDecl",
+      "name": "action_calls",
+      "inherits": null,
+      "members": [
+        {
+          "kind": "ParameterDecl",
+          "names": [
+            "hero"
+          ],
+          "type": {
+            "kind": "NamedType",
+            "name": "vehicle"
+          },
+          "default": null,
+          "constraints": [
+            {
+              "kind": "KeepConstraint",
+              "qualifier": null,
+              "expr": {
+                "kind": "BinaryOp",
+                "op": "==",
+                "left": {
+                  "kind": "FieldAccess",
+                  "target": {
+                    "kind": "ItExpr"
+                  },
+                  "field": "name"
+                },
+                "right": {
+                  "kind": "StringLiteral",
+                  "value": "hero"
+                }
+              }
+            }
+          ]
+        },
+        {
+          "kind": "DoDirective",
+          "member": {
+            "kind": "Composition",
+            "operator": "serial",
+            "args": [],
+            "members": [
+              {
+                "kind": "CallDirective",
+                "invocation": {
+                  "kind": "Call",
+                  "target": {
+                    "kind": "Identifier",
+                    "parts": [
+                      "announce"
+                    ]
+                  },
+                  "args": []
+                }
+              },
+              {
+                "kind": "CallDirective",
+                "invocation": {
+                  "kind": "Call",
+                  "target": {
+                    "kind": "Identifier",
+                    "parts": [
+                      "hold"
+                    ]
+                  },
+                  "args": []
+                }
+              },
+              {
+                "kind": "CallDirective",
+                "invocation": {
+                  "kind": "Call",
+                  "target": {
+                    "kind": "Identifier",
+                    "parts": [
+                      "cruise"
+                    ]
+                  },
+                  "args": [
+                    {
+                      "kind": "PositionalArg",
+                      "value": {
+                        "kind": "Identifier",
+                        "parts": [
+                          "hero"
+                        ]
+                      }
+                    }
+                  ]
+                }
+              },
+              {
+                "kind": "EmitDirective",
+                "name": "DONE",
+                "args": null
+              }
+            ],
+            "with_clause": null
+          }
+        }
+      ]
+    }
+  ]
+}

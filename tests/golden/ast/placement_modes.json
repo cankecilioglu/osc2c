@@ -1,0 +1,425 @@
+{
+  "kind": "CompilationUnit",
+  "imports": [],
+  "uses": [
+    {
+      "kind": "UseDecl",
+      "namespaces": [
+        "stdtypes"
+      ]
+    }
+  ],
+  "declarations": [
+    {
+      "kind": "ScenarioDecl",
+      "name": "placement_modes",
+      "inherits": null,
+      "members": [
+        {
+          "kind": "ParameterDecl",
+          "names": [
+            "hero"
+          ],
+          "type": {
+            "kind": "NamedType",
+            "name": "vehicle"
+          },
+          "default": null,
+          "constraints": [
+            {
+              "kind": "KeepConstraint",
+              "qualifier": null,
+              "expr": {
+                "kind": "BinaryOp",
+                "op": "==",
+                "left": {
+                  "kind": "FieldAccess",
+                  "target": {
+                    "kind": "ItExpr"
+                  },
+                  "field": "name"
+                },
+                "right": {
+                  "kind": "StringLiteral",
+                  "value": "hero"
+                }
+              }
+            }
+          ]
+        },
+        {
+          "kind": "ParameterDecl",
+          "names": [
+            "npc"
+          ],
+          "type": {
+            "kind": "NamedType",
+            "name": "vehicle"
+          },
+          "default": null,
+          "constraints": [
+            {
+              "kind": "KeepConstraint",
+              "qualifier": null,
+              "expr": {
+                "kind": "BinaryOp",
+                "op": "==",
+                "left": {
+                  "kind": "FieldAccess",
+                  "target": {
+                    "kind": "ItExpr"
+                  },
+                  "field": "name"
+                },
+                "right": {
+                  "kind": "StringLiteral",
+                  "value": "npc"
+                }
+              }
+            }
+          ]
+        },
+        {
+          "kind": "ParameterDecl",
+          "names": [
+            "follower"
+          ],
+          "type": {
+            "kind": "NamedType",
+            "name": "vehicle"
+          },
+          "default": null,
+          "constraints": [
+            {
+              "kind": "KeepConstraint",
+              "qualifier": null,
+              "expr": {
+                "kind": "BinaryOp",
+                "op": "==",
+                "left": {
+                  "kind": "FieldAccess",
+                  "target": {
+                    "kind": "ItExpr"
+                  },
+                  "field": "name"
+                },
+                "right": {
+                  "kind": "StringLiteral",
+                  "value": "follower"
+                }
+              }
+            }
+          ]
+        },
+        {
+          "kind": "DoDirective",
+          "member": {
+            "kind": "Composition",
+            "operator": "serial",
+            "args": [],
+            "members": [
+              {
+                "kind": "BehaviorInvocation",
+                "target": {
+                  "kind": "Identifier",
+                  "parts": [
+                    "hero"
+                  ]
+                },
+                "name": "assign_position",
+                "args": [],
+                "with_clause": {
+                  "kind": "BehaviorWith",
+                  "members": [
+                    {
+                      "kind": "ModifierApplication",
+                      "target": null,
+                      "name": "position",
+                      "args": [
+                        {
+                          "kind": "NamedArg",
+                          "name": "x",
+                          "value": {
+                            "kind": "PhysicalLiteral",
+                            "value": 100.0,
+                            "unit": "m"
+                          }
+                        },
+                        {
+                          "kind": "NamedArg",
+                          "name": "y",
+                          "value": {
+                            "kind": "PhysicalLiteral",
+                            "value": 5.0,
+                            "unit": "m"
+                          }
+                        },
+                        {
+                          "kind": "NamedArg",
+                          "name": "z",
+                          "value": {
+                            "kind": "PhysicalLiteral",
+                            "value": 0.0,
+                            "unit": "m"
+                          }
+                        },
+                        {
+                          "kind": "NamedArg",
+                          "name": "at",
+                          "value": {
+                            "kind": "Identifier",
+                            "parts": [
+                              "start"
+                            ]
+                          }
+                        }
+                      ]
+                    },
+                    {
+                      "kind": "ModifierApplication",
+                      "target": null,
+                      "name": "speed",
+                      "args": [
+                        {
+                          "kind": "PositionalArg",
+                          "value": {
+                            "kind": "PhysicalLiteral",
+                            "value": 0.0,
+                            "unit": "mps"
+                          }
+                        },
+                        {
+                          "kind": "NamedArg",
+                          "name": "at",
+                          "value": {
+                            "kind": "Identifier",
+                            "parts": [
+                              "start"
+                            ]
+                          }
+                        }
+                      ]
+                    }
+                  ]
+                }
+              },
+              {
+                "kind": "BehaviorInvocation",
+                "target": {
+                  "kind": "Identifier",
+                  "parts": [
+                    "npc"
+                  ]
+                },
+                "name": "assign_position",
+                "args": [],
+                "with_clause": {
+                  "kind": "BehaviorWith",
+                  "members": [
+                    {
+                      "kind": "ModifierApplication",
+                      "target": null,
+                      "name": "position",
+                      "args": [
+                        {
+                          "kind": "NamedArg",
+                          "name": "distance",
+                          "value": {
+                            "kind": "PhysicalLiteral",
+                            "value": 20.0,
+                            "unit": "m"
+                          }
+                        },
+                        {
+                          "kind": "NamedArg",
+                          "name": "ahead_of",
+                          "value": {
+                            "kind": "Identifier",
+                            "parts": [
+                              "hero"
+                            ]
+                          }
+                        },
+                        {
+                          "kind": "NamedArg",
+                          "name": "at",
+                          "value": {
+                            "kind": "Identifier",
+                            "parts": [
+                              "start"
+                            ]
+                          }
+                        }
+                      ]
+                    },
+                    {
+                      "kind": "ModifierApplication",
+                      "target": null,
+                      "name": "lane",
+                      "args": [
+                        {
+                          "kind": "NamedArg",
+                          "name": "side",
+                          "value": {
+                            "kind": "Identifier",
+                            "parts": [
+                              "left"
+                            ]
+                          }
+                        },
+                        {
+                          "kind": "NamedArg",
+                          "name": "side_of",
+                          "value": {
+                            "kind": "Identifier",
+                            "parts": [
+                              "hero"
+                            ]
+                          }
+                        },
+                        {
+                          "kind": "NamedArg",
+                          "name": "at",
+                          "value": {
+                            "kind": "Identifier",
+                            "parts": [
+                              "start"
+                            ]
+                          }
+                        }
+                      ]
+                    },
+                    {
+                      "kind": "ModifierApplication",
+                      "target": null,
+                      "name": "speed",
+                      "args": [
+                        {
+                          "kind": "PositionalArg",
+                          "value": {
+                            "kind": "PhysicalLiteral",
+                            "value": 0.0,
+                            "unit": "mps"
+                          }
+                        },
+                        {
+                          "kind": "NamedArg",
+                          "name": "at",
+                          "value": {
+                            "kind": "Identifier",
+                            "parts": [
+                              "start"
+                            ]
+                          }
+                        }
+                      ]
+                    }
+                  ]
+                }
+              },
+              {
+                "kind": "BehaviorInvocation",
+                "target": {
+                  "kind": "Identifier",
+                  "parts": [
+                    "follower"
+                  ]
+                },
+                "name": "assign_position",
+                "args": [],
+                "with_clause": {
+                  "kind": "BehaviorWith",
+                  "members": [
+                    {
+                      "kind": "ModifierApplication",
+                      "target": null,
+                      "name": "position",
+                      "args": [
+                        {
+                          "kind": "NamedArg",
+                          "name": "distance",
+                          "value": {
+                            "kind": "PhysicalLiteral",
+                            "value": 8.0,
+                            "unit": "m"
+                          }
+                        },
+                        {
+                          "kind": "NamedArg",
+                          "name": "behind",
+                          "value": {
+                            "kind": "Identifier",
+                            "parts": [
+                              "hero"
+                            ]
+                          }
+                        },
+                        {
+                          "kind": "NamedArg",
+                          "name": "at",
+                          "value": {
+                            "kind": "Identifier",
+                            "parts": [
+                              "start"
+                            ]
+                          }
+                        }
+                      ]
+                    },
+                    {
+                      "kind": "ModifierApplication",
+                      "target": null,
+                      "name": "speed",
+                      "args": [
+                        {
+                          "kind": "PositionalArg",
+                          "value": {
+                            "kind": "PhysicalLiteral",
+                            "value": 0.0,
+                            "unit": "mps"
+                          }
+                        },
+                        {
+                          "kind": "NamedArg",
+                          "name": "at",
+                          "value": {
+                            "kind": "Identifier",
+                            "parts": [
+                              "start"
+                            ]
+                          }
+                        }
+                      ]
+                    }
+                  ]
+                }
+              },
+              {
+                "kind": "WaitDirective",
+                "specification": {
+                  "kind": "EventSpec",
+                  "reference": null,
+                  "field": null,
+                  "condition": {
+                    "kind": "ElapsedCond",
+                    "expr": {
+                      "kind": "PhysicalLiteral",
+                      "value": 0.2,
+                      "unit": "s"
+                    }
+                  }
+                }
+              },
+              {
+                "kind": "EmitDirective",
+                "name": "PLACED",
+                "args": null
+              }
+            ],
+            "with_clause": null
+          }
+        }
+      ]
+    }
+  ]
+}

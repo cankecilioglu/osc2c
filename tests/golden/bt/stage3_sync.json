@@ -1,0 +1,44 @@
+{
+  "type": "Sequence",
+  "name": "serial",
+  "children": [
+    {
+      "type": "Success",
+      "name": "hero.assign_position"
+    },
+    {
+      "type": "Success",
+      "name": "npc.assign_position"
+    },
+    {
+      "type": "Parallel",
+      "name": "one_of",
+      "children": [
+        {
+          "type": "ActionLeaf",
+          "name": "hero.drive"
+        },
+        {
+          "type": "WaitLeaf",
+          "name": "wait rise(hero.position.ahead_of(npc) > -gap)"
+        }
+      ]
+    },
+    {
+      "type": "EmitLeaf",
+      "name": "emit SYNCHRONIZED"
+    },
+    {
+      "type": "WaitLeaf",
+      "name": "wait elapsed(500ms)"
+    },
+    {
+      "type": "WaitLeaf",
+      "name": "wait @SYNCHRONIZED"
+    },
+    {
+      "type": "ActionLeaf",
+      "name": "hero.set_lights"
+    }
+  ]
+}

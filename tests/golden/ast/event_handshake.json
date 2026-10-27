@@ -1,0 +1,180 @@
+{
+  "kind": "CompilationUnit",
+  "imports": [],
+  "uses": [
+    {
+      "kind": "UseDecl",
+      "namespaces": [
+        "stdtypes"
+      ]
+    }
+  ],
+  "declarations": [
+    {
+      "kind": "ScenarioDecl",
+      "name": "event_handshake",
+      "inherits": null,
+      "members": [
+        {
+          "kind": "ParameterDecl",
+          "names": [
+            "hero"
+          ],
+          "type": {
+            "kind": "NamedType",
+            "name": "vehicle"
+          },
+          "default": null,
+          "constraints": [
+            {
+              "kind": "KeepConstraint",
+              "qualifier": null,
+              "expr": {
+                "kind": "BinaryOp",
+                "op": "==",
+                "left": {
+                  "kind": "FieldAccess",
+                  "target": {
+                    "kind": "ItExpr"
+                  },
+                  "field": "name"
+                },
+                "right": {
+                  "kind": "StringLiteral",
+                  "value": "hero"
+                }
+              }
+            }
+          ]
+        },
+        {
+          "kind": "ParameterDecl",
+          "names": [
+            "npc"
+          ],
+          "type": {
+            "kind": "NamedType",
+            "name": "vehicle"
+          },
+          "default": null,
+          "constraints": [
+            {
+              "kind": "KeepConstraint",
+              "qualifier": null,
+              "expr": {
+                "kind": "BinaryOp",
+                "op": "==",
+                "left": {
+                  "kind": "FieldAccess",
+                  "target": {
+                    "kind": "ItExpr"
+                  },
+                  "field": "name"
+                },
+                "right": {
+                  "kind": "StringLiteral",
+                  "value": "npc"
+                }
+              }
+            }
+          ]
+        },
+        {
+          "kind": "DoDirective",
+          "member": {
+            "kind": "Composition",
+            "operator": "serial",
+            "args": [],
+            "members": [
+              {
+                "kind": "Composition",
+                "operator": "parallel",
+                "args": [],
+                "members": [
+                  {
+                    "kind": "Composition",
+                    "operator": "serial",
+                    "args": [],
+                    "members": [
+                      {
+                        "kind": "WaitDirective",
+                        "specification": {
+                          "kind": "EventSpec",
+                          "reference": null,
+                          "field": null,
+                          "condition": {
+                            "kind": "ElapsedCond",
+                            "expr": {
+                              "kind": "PhysicalLiteral",
+                              "value": 0.2,
+                              "unit": "s"
+                            }
+                          }
+                        }
+                      },
+                      {
+                        "kind": "EmitDirective",
+                        "name": "PING",
+                        "args": null
+                      }
+                    ],
+                    "with_clause": null
+                  },
+                  {
+                    "kind": "Composition",
+                    "operator": "serial",
+                    "args": [],
+                    "members": [
+                      {
+                        "kind": "WaitDirective",
+                        "specification": {
+                          "kind": "EventSpec",
+                          "reference": {
+                            "kind": "EventReference",
+                            "path": null,
+                            "name": "PING"
+                          },
+                          "field": null,
+                          "condition": null
+                        }
+                      },
+                      {
+                        "kind": "EmitDirective",
+                        "name": "PONG",
+                        "args": null
+                      }
+                    ],
+                    "with_clause": null
+                  }
+                ],
+                "with_clause": null
+              },
+              {
+                "kind": "WaitDirective",
+                "specification": {
+                  "kind": "EventSpec",
+                  "reference": null,
+                  "field": null,
+                  "condition": {
+                    "kind": "ElapsedCond",
+                    "expr": {
+                      "kind": "PhysicalLiteral",
+                      "value": 0.1,
+                      "unit": "s"
+                    }
+                  }
+                }
+              },
+              {
+                "kind": "EmitDirective",
+                "name": "DONE",
+                "args": null
+              }
+            ],
+            "with_clause": null
+          }
+        }
+      ]
+    }
+  ]
+}

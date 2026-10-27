@@ -1,0 +1,7 @@
+# Kasıtlı olarak geçersiz: bilinmeyen bileşik birim tanılaması (docs/GRAMMAR_GAPS.md §4).
+namespace diagnostics
+
+scenario unknown_compound_unit:
+    var v : speed = 1 m/parsec
+    do serial:
+        wait elapsed(100 ms)

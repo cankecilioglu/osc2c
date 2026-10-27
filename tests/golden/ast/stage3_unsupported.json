@@ -1,0 +1,49 @@
+{
+  "kind": "CompilationUnit",
+  "imports": [],
+  "uses": [],
+  "declarations": [
+    {
+      "kind": "ScenarioDecl",
+      "name": "stage3_unsupported",
+      "inherits": null,
+      "members": [
+        {
+          "kind": "ParameterDecl",
+          "names": [
+            "hero"
+          ],
+          "type": {
+            "kind": "NamedType",
+            "name": "vehicle"
+          },
+          "default": null,
+          "constraints": []
+        },
+        {
+          "kind": "DoDirective",
+          "member": {
+            "kind": "Composition",
+            "operator": "serial",
+            "args": [],
+            "members": [
+              {
+                "kind": "BehaviorInvocation",
+                "target": {
+                  "kind": "Identifier",
+                  "parts": [
+                    "hero"
+                  ]
+                },
+                "name": "fly",
+                "args": [],
+                "with_clause": null
+              }
+            ],
+            "with_clause": null
+          }
+        }
+      ]
+    }
+  ]
+}

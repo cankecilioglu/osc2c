@@ -1,0 +1,25 @@
+use stdtypes
+
+scenario s:
+    hero : vehicle with:
+        keep(it.name == "hero")
+    env : environment
+
+    var v_hero : speed = 35 kph
+    var v_npc_fast : speed = v_hero + 12.42 mph
+    var lag : length = 5 m
+    var safety_gap : length = lag * 3
+
+    do serial:
+        env.assign_celestial_position(azimuth: 270deg, elevation: 12deg)
+        hero.assign_position() with:
+            lane(1, at: start)
+            speed(0kph, at: start)
+
+        parallel:
+            hero.drive() with:
+                speed(v_hero)
+            wait fall(hero.position.ahead_of(hero) > safety_gap)
+
+        emit CRASH_AVOIDED
+        wait elapsed(0.5s)

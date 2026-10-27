@@ -1,0 +1,4 @@
+antlr4-python3-runtime==4.13.2
+py-trees==2.6.0
+pytest==9.1.1
+pytest-cov==7.1.0

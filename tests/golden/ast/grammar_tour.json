@@ -1,0 +1,374 @@
+{
+  "kind": "CompilationUnit",
+  "imports": [],
+  "uses": [
+    {
+      "kind": "UseDecl",
+      "namespaces": [
+        "stdtypes",
+        "std"
+      ]
+    }
+  ],
+  "declarations": [
+    {
+      "kind": "NamespaceDecl",
+      "name": "demo",
+      "uses": []
+    },
+    {
+      "kind": "PhysicalTypeDecl",
+      "name": "distance",
+      "base": {
+        "kind": "SiBaseSpec",
+        "exponents": [
+          {
+            "kind": "SiExponent",
+            "unit": "m",
+            "exponent": 1
+          }
+        ]
+      }
+    },
+    {
+      "kind": "UnitDecl",
+      "name": "km",
+      "type_name": "distance",
+      "spec": {
+        "kind": "SiUnitSpec",
+        "exponents": [
+          {
+            "kind": "SiExponent",
+            "unit": "m",
+            "exponent": 1
+          }
+        ],
+        "factor": 1000.0,
+        "offset": null
+      }
+    },
+    {
+      "kind": "EnumDecl",
+      "name": "color",
+      "members": [
+        {
+          "kind": "EnumMember",
+          "name": "red",
+          "value": null
+        },
+        {
+          "kind": "EnumMember",
+          "name": "green",
+          "value": 1
+        },
+        {
+          "kind": "EnumMember",
+          "name": "blue",
+          "value": 2
+        }
+      ]
+    },
+    {
+      "kind": "StructDecl",
+      "name": "point",
+      "inherits": null,
+      "members": [
+        {
+          "kind": "ParameterDecl",
+          "names": [
+            "x"
+          ],
+          "type": {
+            "kind": "PrimitiveType",
+            "name": "float"
+          },
+          "default": null,
+          "constraints": []
+        },
+        {
+          "kind": "ParameterDecl",
+          "names": [
+            "y"
+          ],
+          "type": {
+            "kind": "PrimitiveType",
+            "name": "float"
+          },
+          "default": null,
+          "constraints": []
+        }
+      ]
+    },
+    {
+      "kind": "ActorDecl",
+      "name": "vehicle",
+      "inherits": null,
+      "members": [
+        {
+          "kind": "VariableDecl",
+          "names": [
+            "target_speed"
+          ],
+          "type": {
+            "kind": "NamedType",
+            "name": "speed"
+          },
+          "value": {
+            "kind": "PhysicalLiteral",
+            "value": 10.0,
+            "unit": "kph"
+          },
+          "sample": null
+        },
+        {
+          "kind": "EventDecl",
+          "name": "honk",
+          "parameters": null,
+          "specification": {
+            "kind": "EventSpec",
+            "reference": {
+              "kind": "EventReference",
+              "path": null,
+              "name": "horn"
+            },
+            "field": null,
+            "condition": null
+          }
+        },
+        {
+          "kind": "MethodDecl",
+          "name": "is_fast",
+          "parameters": null,
+          "return_type": {
+            "kind": "PrimitiveType",
+            "name": "bool"
+          },
+          "implementation": {
+            "kind": "MethodImpl",
+            "mode": "expression",
+            "expression": {
+              "kind": "BinaryOp",
+              "op": ">",
+              "left": {
+                "kind": "FieldAccess",
+                "target": {
+                  "kind": "ItExpr"
+                },
+                "field": "target_speed"
+              },
+              "right": {
+                "kind": "PhysicalLiteral",
+                "value": 30.0,
+                "unit": "kph"
+              }
+            },
+            "external": null,
+            "args": null
+          }
+        }
+      ]
+    },
+    {
+      "kind": "ScenarioDecl",
+      "name": "cut_in",
+      "inherits": null,
+      "members": [
+        {
+          "kind": "ParameterDecl",
+          "names": [
+            "hero"
+          ],
+          "type": {
+            "kind": "NamedType",
+            "name": "vehicle"
+          },
+          "default": null,
+          "constraints": [
+            {
+              "kind": "KeepConstraint",
+              "qualifier": null,
+              "expr": {
+                "kind": "BinaryOp",
+                "op": "==",
+                "left": {
+                  "kind": "FieldAccess",
+                  "target": {
+                    "kind": "ItExpr"
+                  },
+                  "field": "name"
+                },
+                "right": {
+                  "kind": "StringLiteral",
+                  "value": "hero"
+                }
+              }
+            }
+          ]
+        },
+        {
+          "kind": "ParameterDecl",
+          "names": [
+            "npc"
+          ],
+          "type": {
+            "kind": "NamedType",
+            "name": "vehicle"
+          },
+          "default": null,
+          "constraints": []
+        },
+        {
+          "kind": "DoDirective",
+          "member": {
+            "kind": "Composition",
+            "operator": "serial",
+            "args": [],
+            "members": [
+              {
+                "kind": "Composition",
+                "operator": "parallel",
+                "args": [],
+                "members": [
+                  {
+                    "kind": "BehaviorInvocation",
+                    "target": {
+                      "kind": "Identifier",
+                      "parts": [
+                        "hero"
+                      ]
+                    },
+                    "name": "drive",
+                    "args": [],
+                    "with_clause": {
+                      "kind": "BehaviorWith",
+                      "members": [
+                        {
+                          "kind": "ModifierApplication",
+                          "target": null,
+                          "name": "speed",
+                          "args": [
+                            {
+                              "kind": "PositionalArg",
+                              "value": {
+                                "kind": "PhysicalLiteral",
+                                "value": 60.0,
+                                "unit": "kph"
+                              }
+                            }
+                          ]
+                        }
+                      ]
+                    }
+                  },
+                  {
+                    "kind": "BehaviorInvocation",
+                    "target": {
+                      "kind": "Identifier",
+                      "parts": [
+                        "npc"
+                      ]
+                    },
+                    "name": "drive",
+                    "args": [],
+                    "with_clause": {
+                      "kind": "BehaviorWith",
+                      "members": [
+                        {
+                          "kind": "ModifierApplication",
+                          "target": null,
+                          "name": "speed",
+                          "args": [
+                            {
+                              "kind": "PositionalArg",
+                              "value": {
+                                "kind": "PhysicalLiteral",
+                                "value": 50.0,
+                                "unit": "kph"
+                              }
+                            }
+                          ]
+                        }
+                      ]
+                    }
+                  }
+                ],
+                "with_clause": null
+              },
+              {
+                "kind": "WaitDirective",
+                "specification": {
+                  "kind": "EventSpec",
+                  "reference": null,
+                  "field": null,
+                  "condition": {
+                    "kind": "FallCond",
+                    "expr": {
+                      "kind": "BinaryOp",
+                      "op": ">",
+                      "left": {
+                        "kind": "Call",
+                        "target": {
+                          "kind": "FieldAccess",
+                          "target": {
+                            "kind": "FieldAccess",
+                            "target": {
+                              "kind": "Identifier",
+                              "parts": [
+                                "hero"
+                              ]
+                            },
+                            "field": "position"
+                          },
+                          "field": "ahead_of"
+                        },
+                        "args": [
+                          {
+                            "kind": "PositionalArg",
+                            "value": {
+                              "kind": "Identifier",
+                              "parts": [
+                                "hero"
+                              ]
+                            }
+                          }
+                        ]
+                      },
+                      "right": {
+                        "kind": "PhysicalLiteral",
+                        "value": 10.0,
+                        "unit": "m"
+                      }
+                    }
+                  }
+                }
+              },
+              {
+                "kind": "EmitDirective",
+                "name": "cut_in_done",
+                "args": null
+              },
+              {
+                "kind": "CallDirective",
+                "invocation": {
+                  "kind": "Call",
+                  "target": {
+                    "kind": "FieldAccess",
+                    "target": {
+                      "kind": "Identifier",
+                      "parts": [
+                        "hero"
+                      ]
+                    },
+                    "field": "is_fast"
+                  },
+                  "args": []
+                }
+              }
+            ],
+            "with_clause": null
+          }
+        }
+      ]
+    }
+  ]
+}

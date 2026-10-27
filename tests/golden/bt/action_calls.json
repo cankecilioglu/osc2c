@@ -1,0 +1,62 @@
+{
+  "type": "Sequence",
+  "name": "serial",
+  "children": [
+    {
+      "type": "ActionScope",
+      "name": "call announce",
+      "child": {
+        "type": "Sequence",
+        "name": "serial",
+        "children": [
+          {
+            "type": "EmitLeaf",
+            "name": "emit READY"
+          }
+        ]
+      }
+    },
+    {
+      "type": "ActionScope",
+      "name": "call hold",
+      "child": {
+        "type": "Sequence",
+        "name": "serial",
+        "children": [
+          {
+            "type": "WaitLeaf",
+            "name": "wait elapsed(span)"
+          }
+        ]
+      }
+    },
+    {
+      "type": "ActionScope",
+      "name": "call cruise",
+      "child": {
+        "type": "Sequence",
+        "name": "serial",
+        "children": [
+          {
+            "type": "Parallel",
+            "name": "target.drive until",
+            "children": [
+              {
+                "type": "ActionLeaf",
+                "name": "target.drive"
+              },
+              {
+                "type": "WaitLeaf",
+                "name": "target.drive until elapsed(100ms)"
+              }
+            ]
+          }
+        ]
+      }
+    },
+    {
+      "type": "EmitLeaf",
+      "name": "emit DONE"
+    }
+  ]
+}

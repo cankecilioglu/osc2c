@@ -1,0 +1,42 @@
+{
+  "type": "Sequence",
+  "name": "serial",
+  "children": [
+    {
+      "type": "Success",
+      "name": "hero.assign_position"
+    },
+    {
+      "type": "ActionLeaf",
+      "name": "hero.change_speed"
+    },
+    {
+      "type": "Parallel",
+      "name": "parallel",
+      "children": [
+        {
+          "type": "Sequence",
+          "name": "serial",
+          "children": [
+            {
+              "type": "WaitLeaf",
+              "name": "wait elapsed(0.2s)"
+            },
+            {
+              "type": "ActionLeaf",
+              "name": "hero.change_speed"
+            }
+          ]
+        },
+        {
+          "type": "WaitLeaf",
+          "name": "wait fall(hero.speed > 5mps)"
+        }
+      ]
+    },
+    {
+      "type": "EmitLeaf",
+      "name": "emit STOPPED"
+    }
+  ]
+}

@@ -1,0 +1,75 @@
+{
+  "kind": "CompilationUnit",
+  "imports": [],
+  "uses": [
+    {
+      "kind": "UseDecl",
+      "namespaces": [
+        "stdtypes"
+      ]
+    }
+  ],
+  "declarations": [
+    {
+      "kind": "ScenarioDecl",
+      "name": "s",
+      "inherits": null,
+      "members": [
+        {
+          "kind": "ParameterDecl",
+          "names": [
+            "hero"
+          ],
+          "type": {
+            "kind": "NamedType",
+            "name": "vehicle"
+          },
+          "default": null,
+          "constraints": []
+        },
+        {
+          "kind": "DoDirective",
+          "member": {
+            "kind": "Composition",
+            "operator": "serial",
+            "args": [],
+            "members": [
+              {
+                "kind": "BehaviorInvocation",
+                "target": {
+                  "kind": "Identifier",
+                  "parts": [
+                    "hero"
+                  ]
+                },
+                "name": "drive",
+                "args": [],
+                "with_clause": {
+                  "kind": "BehaviorWith",
+                  "members": [
+                    {
+                      "kind": "ModifierApplication",
+                      "target": null,
+                      "name": "speed",
+                      "args": [
+                        {
+                          "kind": "PositionalArg",
+                          "value": {
+                            "kind": "PhysicalLiteral",
+                            "value": 10.0,
+                            "unit": "kph"
+                          }
+                        }
+                      ]
+                    }
+                  ]
+                }
+              }
+            ],
+            "with_clause": null
+          }
+        }
+      ]
+    }
+  ]
+}

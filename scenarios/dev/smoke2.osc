@@ -1,0 +1,9 @@
+import "domain.osc"
+
+scenario smoke:
+    hero : vehicle with:
+        keep(it.name == "hero")
+
+    do serial:
+        hero.drive() with:
+            speed(10kph)

@@ -1,0 +1,108 @@
+{
+  "kind": "CompilationUnit",
+  "imports": [],
+  "uses": [],
+  "declarations": [
+    {
+      "kind": "ScenarioDecl",
+      "name": "stage3_parallel",
+      "inherits": null,
+      "members": [
+        {
+          "kind": "ParameterDecl",
+          "names": [
+            "hero"
+          ],
+          "type": {
+            "kind": "NamedType",
+            "name": "vehicle"
+          },
+          "default": null,
+          "constraints": []
+        },
+        {
+          "kind": "DoDirective",
+          "member": {
+            "kind": "Composition",
+            "operator": "serial",
+            "args": [],
+            "members": [
+              {
+                "kind": "Composition",
+                "operator": "parallel",
+                "args": [],
+                "members": [
+                  {
+                    "kind": "WaitDirective",
+                    "specification": {
+                      "kind": "EventSpec",
+                      "reference": null,
+                      "field": null,
+                      "condition": {
+                        "kind": "ElapsedCond",
+                        "expr": {
+                          "kind": "PhysicalLiteral",
+                          "value": 0.5,
+                          "unit": "s"
+                        }
+                      }
+                    }
+                  },
+                  {
+                    "kind": "Composition",
+                    "operator": "serial",
+                    "args": [],
+                    "members": [
+                      {
+                        "kind": "WaitDirective",
+                        "specification": {
+                          "kind": "EventSpec",
+                          "reference": null,
+                          "field": null,
+                          "condition": {
+                            "kind": "ElapsedCond",
+                            "expr": {
+                              "kind": "PhysicalLiteral",
+                              "value": 0.2,
+                              "unit": "s"
+                            }
+                          }
+                        }
+                      },
+                      {
+                        "kind": "EmitDirective",
+                        "name": "TICK",
+                        "args": null
+                      }
+                    ],
+                    "with_clause": null
+                  }
+                ],
+                "with_clause": null
+              },
+              {
+                "kind": "WaitDirective",
+                "specification": {
+                  "kind": "EventSpec",
+                  "reference": {
+                    "kind": "EventReference",
+                    "path": null,
+                    "name": "TICK"
+                  },
+                  "field": null,
+                  "condition": null
+                }
+              },
+              {
+                "kind": "EmitDirective",
+                "name": "DONE",
+                "args": null
+              }
+            ],
+            "with_clause": null
+          }
+        }
+      ]
+    }
+  ]
+}

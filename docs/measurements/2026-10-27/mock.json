@@ -1,0 +1,449 @@
+{
+  "mock": {
+    "mode": "mock",
+    "repeat": 20,
+    "compile_repeat": 20,
+    "scenarios": [
+      {
+        "id": "S1_cut_in",
+        "path": "scenarios\\carla\\cut_in.osc",
+        "description": "hero cruise + NPC lane change + hero brake",
+        "status": "SUCCESS",
+        "ticks": 41,
+        "sim_time": 4.0,
+        "events": [
+          "CUT_IN"
+        ],
+        "expected_events": [
+          "CUT_IN"
+        ],
+        "events_match": true,
+        "unsupported": [],
+        "final_actors": {
+          "hero": [
+            36.0,
+            1,
+            0.0,
+            "high_beam",
+            36.0,
+            0.0,
+            0.0
+          ],
+          "npc": [
+            54.0,
+            1,
+            6.0,
+            "off",
+            54.0,
+            0.0,
+            0.0
+          ]
+        },
+        "repeat": 20,
+        "unique_hashes": 1,
+        "deterministic": true,
+        "trace_hash": "4c0cdd1fccd7c3307cf396dc006fe6f42060a0747d4a753e3c6431bf361ee1ea",
+        "tick_latency": {
+          "count": 40,
+          "mean": 0.0157,
+          "min": 0.0028,
+          "median": 0.0118,
+          "p95": 0.04,
+          "max": 0.0567
+        },
+        "compile": {
+          "repeat": 20,
+          "parse": {
+            "count": 20,
+            "mean": 90.7359,
+            "min": 86.4794,
+            "median": 89.2202,
+            "p95": 103.4298,
+            "max": 106.6386
+          },
+          "analyze": {
+            "count": 20,
+            "mean": 0.4135,
+            "min": 0.372,
+            "median": 0.3993,
+            "p95": 0.523,
+            "max": 0.538
+          },
+          "compile": {
+            "count": 20,
+            "mean": 1.037,
+            "min": 0.344,
+            "median": 0.3701,
+            "p95": 1.1737,
+            "max": 13.1922
+          },
+          "total": {
+            "count": 20,
+            "mean": 92.1864,
+            "min": 87.3714,
+            "median": 90.2492,
+            "p95": 104.2349,
+            "max": 107.3594
+          },
+          "ast_nodes": 100,
+          "bt_nodes": 15
+        }
+      },
+      {
+        "id": "S2_lane_change_speed",
+        "path": "scenarios\\dev\\lane_change_speed.osc",
+        "description": "lane change and target-speed change",
+        "status": "SUCCESS",
+        "ticks": 13,
+        "sim_time": 1.2,
+        "events": [
+          "LANE_CHANGED",
+          "DONE"
+        ],
+        "expected_events": [
+          "LANE_CHANGED",
+          "DONE"
+        ],
+        "events_match": true,
+        "unsupported": [],
+        "final_actors": {
+          "hero": [
+            14.0,
+            0,
+            14.0,
+            "off",
+            14.0,
+            0.0,
+            0.0
+          ],
+          "npc": [
+            22.0,
+            0,
+            10.0,
+            "off",
+            22.0,
+            0.0,
+            0.0
+          ]
+        },
+        "repeat": 20,
+        "unique_hashes": 1,
+        "deterministic": true,
+        "trace_hash": "a7f99db0c475bcf91c6293dfa70ac1e019e6328693640d464d98bfbf9394b724",
+        "tick_latency": {
+          "count": 12,
+          "mean": 0.0135,
+          "min": 0.0078,
+          "median": 0.0091,
+          "p95": 0.0332,
+          "max": 0.038
+        },
+        "compile": {
+          "repeat": 20,
+          "parse": {
+            "count": 20,
+            "mean": 57.7198,
+            "min": 53.8734,
+            "median": 56.0403,
+            "p95": 67.5865,
+            "max": 71.4063
+          },
+          "analyze": {
+            "count": 20,
+            "mean": 0.4223,
+            "min": 0.3427,
+            "median": 0.3934,
+            "p95": 0.5967,
+            "max": 0.6915
+          },
+          "compile": {
+            "count": 20,
+            "mean": 0.3905,
+            "min": 0.2989,
+            "median": 0.3786,
+            "p95": 0.4933,
+            "max": 0.5873
+          },
+          "total": {
+            "count": 20,
+            "mean": 58.5326,
+            "min": 54.7391,
+            "median": 56.8798,
+            "p95": 68.5695,
+            "max": 72.368
+          },
+          "ast_nodes": 81,
+          "bt_nodes": 12
+        }
+      },
+      {
+        "id": "S3_event_handshake",
+        "path": "scenarios\\dev\\event_handshake.osc",
+        "description": "event handshake between two parallel branches",
+        "status": "SUCCESS",
+        "ticks": 4,
+        "sim_time": 0.3,
+        "events": [
+          "PING",
+          "PONG",
+          "DONE"
+        ],
+        "expected_events": [
+          "PING",
+          "PONG",
+          "DONE"
+        ],
+        "events_match": true,
+        "unsupported": [],
+        "final_actors": {
+          "hero": [
+            0.0,
+            1,
+            0.0,
+            "off",
+            0.0,
+            0.0,
+            0.0
+          ],
+          "npc": [
+            20.0,
+            1,
+            0.0,
+            "off",
+            20.0,
+            0.0,
+            0.0
+          ]
+        },
+        "repeat": 20,
+        "unique_hashes": 1,
+        "deterministic": true,
+        "trace_hash": "8ce2b96b79bf421a588d0df50f637e7718ba17ac5b15b5ccacbac6edca4309a8",
+        "tick_latency": {
+          "count": 3,
+          "mean": 0.0283,
+          "min": 0.0136,
+          "median": 0.0198,
+          "p95": 0.0482,
+          "max": 0.0514
+        },
+        "compile": {
+          "repeat": 20,
+          "parse": {
+            "count": 20,
+            "mean": 2.273,
+            "min": 1.9571,
+            "median": 2.1407,
+            "p95": 2.6373,
+            "max": 4.0719
+          },
+          "analyze": {
+            "count": 20,
+            "mean": 0.2674,
+            "min": 0.1795,
+            "median": 0.2366,
+            "p95": 0.3573,
+            "max": 0.5685
+          },
+          "compile": {
+            "count": 20,
+            "mean": 0.2543,
+            "min": 0.1352,
+            "median": 0.1512,
+            "p95": 0.3471,
+            "max": 2.0628
+          },
+          "total": {
+            "count": 20,
+            "mean": 2.7947,
+            "min": 2.3114,
+            "median": 2.6075,
+            "p95": 4.3766,
+            "max": 4.5362
+          },
+          "ast_nodes": 36,
+          "bt_nodes": 10
+        }
+      },
+      {
+        "id": "S4_placement_modes",
+        "path": "scenarios\\dev\\placement_modes.osc",
+        "description": "absolute, relative-ahead and relative-behind placement",
+        "status": "SUCCESS",
+        "ticks": 3,
+        "sim_time": 0.2,
+        "events": [
+          "PLACED"
+        ],
+        "expected_events": [
+          "PLACED"
+        ],
+        "events_match": true,
+        "unsupported": [],
+        "final_actors": {
+          "follower": [
+            -8.0,
+            1,
+            0.0,
+            "off",
+            -8.0,
+            0.0,
+            0.0
+          ],
+          "hero": [
+            0.0,
+            1,
+            0.0,
+            "off",
+            100.0,
+            5.0,
+            0.0
+          ],
+          "npc": [
+            20.0,
+            0,
+            0.0,
+            "off",
+            20.0,
+            0.0,
+            0.0
+          ]
+        },
+        "repeat": 20,
+        "unique_hashes": 1,
+        "deterministic": true,
+        "trace_hash": "4671bbc0b97bf9c9ffdc80dcd365ef6af7e1e8748e77a281899a3f69a30ff252",
+        "tick_latency": {
+          "count": 2,
+          "mean": 0.0102,
+          "min": 0.0054,
+          "median": 0.0102,
+          "p95": 0.0145,
+          "max": 0.015
+        },
+        "compile": {
+          "repeat": 20,
+          "parse": {
+            "count": 20,
+            "mean": 30.3093,
+            "min": 26.5,
+            "median": 28.6923,
+            "p95": 45.5729,
+            "max": 47.2134
+          },
+          "analyze": {
+            "count": 20,
+            "mean": 0.4279,
+            "min": 0.356,
+            "median": 0.3994,
+            "p95": 0.5089,
+            "max": 0.7539
+          },
+          "compile": {
+            "count": 20,
+            "mean": 0.2704,
+            "min": 0.2339,
+            "median": 0.2525,
+            "p95": 0.3296,
+            "max": 0.3572
+          },
+          "total": {
+            "count": 20,
+            "mean": 31.0076,
+            "min": 27.1073,
+            "median": 29.3326,
+            "p95": 46.2014,
+            "max": 47.8071
+          },
+          "ast_nodes": 85,
+          "bt_nodes": 6
+        }
+      },
+      {
+        "id": "S5_environment_lights",
+        "path": "scenarios\\dev\\environment_lights.osc",
+        "description": "celestial position, lights and speed change",
+        "status": "SUCCESS",
+        "ticks": 13,
+        "sim_time": 1.2,
+        "events": [
+          "NIGHT_MODE"
+        ],
+        "expected_events": [
+          "NIGHT_MODE"
+        ],
+        "events_match": true,
+        "unsupported": [],
+        "final_actors": {
+          "env": [
+            20.0,
+            1,
+            0.0,
+            "off",
+            20.0,
+            0.0,
+            0.0
+          ],
+          "hero": [
+            8.333333,
+            1,
+            8.333333,
+            "high_beam",
+            8.333333,
+            0.0,
+            0.0
+          ]
+        },
+        "repeat": 20,
+        "unique_hashes": 1,
+        "deterministic": true,
+        "trace_hash": "0de7509b017e2ab03e21787b150a8516e4ea683c0473f93060711acd794b6a97",
+        "tick_latency": {
+          "count": 12,
+          "mean": 0.0053,
+          "min": 0.0027,
+          "median": 0.0029,
+          "p95": 0.0146,
+          "max": 0.0243
+        },
+        "compile": {
+          "repeat": 20,
+          "parse": {
+            "count": 20,
+            "mean": 67.492,
+            "min": 63.9921,
+            "median": 67.0736,
+            "p95": 71.3692,
+            "max": 77.5872
+          },
+          "analyze": {
+            "count": 20,
+            "mean": 0.3113,
+            "min": 0.2667,
+            "median": 0.3055,
+            "p95": 0.3514,
+            "max": 0.386
+          },
+          "compile": {
+            "count": 20,
+            "mean": 0.237,
+            "min": 0.1998,
+            "median": 0.2237,
+            "p95": 0.2997,
+            "max": 0.3435
+          },
+          "total": {
+            "count": 20,
+            "mean": 68.0403,
+            "min": 64.5454,
+            "median": 67.6088,
+            "p95": 71.9535,
+            "max": 78.0906
+          },
+          "ast_nodes": 55,
+          "bt_nodes": 9
+        }
+      }
+    ]
+  }
+}

@@ -1,0 +1,283 @@
+{
+  "kind": "CompilationUnit",
+  "imports": [],
+  "uses": [
+    {
+      "kind": "UseDecl",
+      "namespaces": [
+        "stdtypes"
+      ]
+    }
+  ],
+  "declarations": [
+    {
+      "kind": "ScenarioDecl",
+      "name": "environment_lights",
+      "inherits": null,
+      "members": [
+        {
+          "kind": "ParameterDecl",
+          "names": [
+            "hero"
+          ],
+          "type": {
+            "kind": "NamedType",
+            "name": "vehicle"
+          },
+          "default": null,
+          "constraints": [
+            {
+              "kind": "KeepConstraint",
+              "qualifier": null,
+              "expr": {
+                "kind": "BinaryOp",
+                "op": "==",
+                "left": {
+                  "kind": "FieldAccess",
+                  "target": {
+                    "kind": "ItExpr"
+                  },
+                  "field": "name"
+                },
+                "right": {
+                  "kind": "StringLiteral",
+                  "value": "hero"
+                }
+              }
+            }
+          ]
+        },
+        {
+          "kind": "ParameterDecl",
+          "names": [
+            "env"
+          ],
+          "type": {
+            "kind": "NamedType",
+            "name": "environment"
+          },
+          "default": null,
+          "constraints": []
+        },
+        {
+          "kind": "VariableDecl",
+          "names": [
+            "twilight"
+          ],
+          "type": {
+            "kind": "NamedType",
+            "name": "angle"
+          },
+          "value": {
+            "kind": "PhysicalLiteral",
+            "value": 12.0,
+            "unit": "deg"
+          },
+          "sample": null
+        },
+        {
+          "kind": "VariableDecl",
+          "names": [
+            "target"
+          ],
+          "type": {
+            "kind": "NamedType",
+            "name": "speed"
+          },
+          "value": {
+            "kind": "PhysicalLiteral",
+            "value": 30.0,
+            "unit": "kph"
+          },
+          "sample": null
+        },
+        {
+          "kind": "DoDirective",
+          "member": {
+            "kind": "Composition",
+            "operator": "serial",
+            "args": [],
+            "members": [
+              {
+                "kind": "BehaviorInvocation",
+                "target": {
+                  "kind": "Identifier",
+                  "parts": [
+                    "env"
+                  ]
+                },
+                "name": "assign_celestial_position",
+                "args": [
+                  {
+                    "kind": "NamedArg",
+                    "name": "azimuth",
+                    "value": {
+                      "kind": "PhysicalLiteral",
+                      "value": 270.0,
+                      "unit": "deg"
+                    }
+                  },
+                  {
+                    "kind": "NamedArg",
+                    "name": "elevation",
+                    "value": {
+                      "kind": "Identifier",
+                      "parts": [
+                        "twilight"
+                      ]
+                    }
+                  }
+                ],
+                "with_clause": null
+              },
+              {
+                "kind": "BehaviorInvocation",
+                "target": {
+                  "kind": "Identifier",
+                  "parts": [
+                    "hero"
+                  ]
+                },
+                "name": "assign_position",
+                "args": [],
+                "with_clause": {
+                  "kind": "BehaviorWith",
+                  "members": [
+                    {
+                      "kind": "ModifierApplication",
+                      "target": null,
+                      "name": "speed",
+                      "args": [
+                        {
+                          "kind": "PositionalArg",
+                          "value": {
+                            "kind": "PhysicalLiteral",
+                            "value": 0.0,
+                            "unit": "mps"
+                          }
+                        },
+                        {
+                          "kind": "NamedArg",
+                          "name": "at",
+                          "value": {
+                            "kind": "Identifier",
+                            "parts": [
+                              "start"
+                            ]
+                          }
+                        }
+                      ]
+                    }
+                  ]
+                }
+              },
+              {
+                "kind": "BehaviorInvocation",
+                "target": {
+                  "kind": "Identifier",
+                  "parts": [
+                    "hero"
+                  ]
+                },
+                "name": "set_lights",
+                "args": [
+                  {
+                    "kind": "NamedArg",
+                    "name": "mode",
+                    "value": {
+                      "kind": "StringLiteral",
+                      "value": "auto"
+                    }
+                  }
+                ],
+                "with_clause": null
+              },
+              {
+                "kind": "WaitDirective",
+                "specification": {
+                  "kind": "EventSpec",
+                  "reference": null,
+                  "field": null,
+                  "condition": {
+                    "kind": "ElapsedCond",
+                    "expr": {
+                      "kind": "PhysicalLiteral",
+                      "value": 0.2,
+                      "unit": "s"
+                    }
+                  }
+                }
+              },
+              {
+                "kind": "BehaviorInvocation",
+                "target": {
+                  "kind": "Identifier",
+                  "parts": [
+                    "hero"
+                  ]
+                },
+                "name": "set_lights",
+                "args": [
+                  {
+                    "kind": "NamedArg",
+                    "name": "mode",
+                    "value": {
+                      "kind": "StringLiteral",
+                      "value": "high_beam"
+                    }
+                  }
+                ],
+                "with_clause": null
+              },
+              {
+                "kind": "EmitDirective",
+                "name": "NIGHT_MODE",
+                "args": null
+              },
+              {
+                "kind": "BehaviorInvocation",
+                "target": {
+                  "kind": "Identifier",
+                  "parts": [
+                    "hero"
+                  ]
+                },
+                "name": "change_speed",
+                "args": [
+                  {
+                    "kind": "NamedArg",
+                    "name": "target",
+                    "value": {
+                      "kind": "Identifier",
+                      "parts": [
+                        "target"
+                      ]
+                    }
+                  }
+                ],
+                "with_clause": null
+              },
+              {
+                "kind": "WaitDirective",
+                "specification": {
+                  "kind": "EventSpec",
+                  "reference": null,
+                  "field": null,
+                  "condition": {
+                    "kind": "ElapsedCond",
+                    "expr": {
+                      "kind": "PhysicalLiteral",
+                      "value": 1.0,
+                      "unit": "s"
+                    }
+                  }
+                }
+              }
+            ],
+            "with_clause": null
+          }
+        }
+      ]
+    }
+  ]
+}

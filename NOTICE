@@ -1,0 +1,20 @@
+This project includes a modified version of the ASAM OpenSCENARIO 2 grammar
+from PMSF py-osc2 (https://github.com/PMSFIT/py-osc2), which is licensed
+under the Mozilla Public License 2.0 (MPL-2.0).
+
+Modifications:
+- top-level `use` statement support
+- spaced physical literals (e.g., `35 kph`)
+
+The following files are distributed under MPL-2.0:
+- grammar/openscenario2.g4
+- src/osc2c/frontend/generated/*.py
+
+MPL-2.0 full text: https://mozilla.org/MPL/2.0/
+
+ASAM OpenSCENARIO DSL 2.2.0 files (grammar.ebnf, types.osc, domain.osc,
+standard.osc) are not included in this repository. They are used locally
+under external/asam/ (gitignored) for validation. Their headers state that,
+in alteration to the regular license terms, "ASAM allows unrestricted
+distribution of this standard"; the redistribution decision is still open
+(see docs/GRAMMAR_DIFF_2.2.md, section 8).

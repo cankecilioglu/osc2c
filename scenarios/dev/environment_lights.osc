@@ -1,0 +1,20 @@
+use stdtypes
+
+scenario environment_lights:
+    hero : vehicle with:
+        keep(it.name == "hero")
+    env : environment
+
+    var twilight : angle = 12 deg
+    var target : speed = 30 kph
+
+    do serial:
+        env.assign_celestial_position(azimuth: 270 deg, elevation: twilight)
+        hero.assign_position() with:
+            speed(0 mps, at: start)
+        hero.set_lights(mode: "auto")
+        wait elapsed(0.2 s)
+        hero.set_lights(mode: "high_beam")
+        emit NIGHT_MODE
+        hero.change_speed(target: target)
+        wait elapsed(1 s)

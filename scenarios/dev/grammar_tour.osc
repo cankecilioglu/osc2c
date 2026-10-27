@@ -1,0 +1,33 @@
+use stdtypes, std
+
+namespace demo
+
+type distance is SI(m: 1)
+unit km of distance is SI(m: 1, factor: 1000)
+
+enum color: [red, green = 1, blue = 0x2]
+
+struct point:
+    x : float
+    y : float
+
+actor vehicle:
+    var target_speed : speed = 10 kph
+    event honk is @horn
+
+    def is_fast() -> bool is expression it.target_speed > 30 kph
+
+scenario cut_in:
+    hero : vehicle with:
+        keep(it.name == "hero")
+    npc : vehicle
+
+    do serial:
+        parallel:
+            hero.drive() with:
+                speed(60 kph)
+            npc.drive() with:
+                speed(50 kph)
+        wait fall(hero.position.ahead_of(hero) > 10 m)
+        emit cut_in_done
+        call hero.is_fast()

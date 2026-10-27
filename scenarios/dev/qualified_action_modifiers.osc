@@ -1,0 +1,22 @@
+actor cruiser inherits vehicle
+
+action cruiser.cruise:
+    do serial:
+        it.drive()
+        wait elapsed(100 ms)
+
+action cruiser.place:
+    do serial:
+        it.assign_position()
+        wait elapsed(100 ms)
+
+scenario qualified_action_modifiers:
+    c : cruiser
+
+    do serial:
+        c.cruise() with:
+            speed(5 mps)
+            until elapsed(300 ms)
+        c.place() with:
+            position(x: 10 m)
+        emit DONE

@@ -1,0 +1,218 @@
+{
+  "kind": "CompilationUnit",
+  "imports": [],
+  "uses": [],
+  "declarations": [
+    {
+      "kind": "ActorDecl",
+      "name": "cruiser",
+      "inherits": {
+        "kind": "InheritsSpec",
+        "name": "vehicle",
+        "field": null,
+        "condition": null
+      },
+      "members": []
+    },
+    {
+      "kind": "ActionDecl",
+      "name": "cruiser.cruise",
+      "inherits": null,
+      "members": [
+        {
+          "kind": "DoDirective",
+          "member": {
+            "kind": "Composition",
+            "operator": "serial",
+            "args": [],
+            "members": [
+              {
+                "kind": "BehaviorInvocation",
+                "target": {
+                  "kind": "ItExpr"
+                },
+                "name": "drive",
+                "args": [],
+                "with_clause": null
+              },
+              {
+                "kind": "WaitDirective",
+                "specification": {
+                  "kind": "EventSpec",
+                  "reference": null,
+                  "field": null,
+                  "condition": {
+                    "kind": "ElapsedCond",
+                    "expr": {
+                      "kind": "PhysicalLiteral",
+                      "value": 100.0,
+                      "unit": "ms"
+                    }
+                  }
+                }
+              }
+            ],
+            "with_clause": null
+          }
+        }
+      ]
+    },
+    {
+      "kind": "ActionDecl",
+      "name": "cruiser.place",
+      "inherits": null,
+      "members": [
+        {
+          "kind": "DoDirective",
+          "member": {
+            "kind": "Composition",
+            "operator": "serial",
+            "args": [],
+            "members": [
+              {
+                "kind": "BehaviorInvocation",
+                "target": {
+                  "kind": "ItExpr"
+                },
+                "name": "assign_position",
+                "args": [],
+                "with_clause": null
+              },
+              {
+                "kind": "WaitDirective",
+                "specification": {
+                  "kind": "EventSpec",
+                  "reference": null,
+                  "field": null,
+                  "condition": {
+                    "kind": "ElapsedCond",
+                    "expr": {
+                      "kind": "PhysicalLiteral",
+                      "value": 100.0,
+                      "unit": "ms"
+                    }
+                  }
+                }
+              }
+            ],
+            "with_clause": null
+          }
+        }
+      ]
+    },
+    {
+      "kind": "ScenarioDecl",
+      "name": "qualified_action_modifiers",
+      "inherits": null,
+      "members": [
+        {
+          "kind": "ParameterDecl",
+          "names": [
+            "c"
+          ],
+          "type": {
+            "kind": "NamedType",
+            "name": "cruiser"
+          },
+          "default": null,
+          "constraints": []
+        },
+        {
+          "kind": "DoDirective",
+          "member": {
+            "kind": "Composition",
+            "operator": "serial",
+            "args": [],
+            "members": [
+              {
+                "kind": "BehaviorInvocation",
+                "target": {
+                  "kind": "Identifier",
+                  "parts": [
+                    "c"
+                  ]
+                },
+                "name": "cruise",
+                "args": [],
+                "with_clause": {
+                  "kind": "BehaviorWith",
+                  "members": [
+                    {
+                      "kind": "ModifierApplication",
+                      "target": null,
+                      "name": "speed",
+                      "args": [
+                        {
+                          "kind": "PositionalArg",
+                          "value": {
+                            "kind": "PhysicalLiteral",
+                            "value": 5.0,
+                            "unit": "mps"
+                          }
+                        }
+                      ]
+                    },
+                    {
+                      "kind": "UntilDirective",
+                      "specification": {
+                        "kind": "EventSpec",
+                        "reference": null,
+                        "field": null,
+                        "condition": {
+                          "kind": "ElapsedCond",
+                          "expr": {
+                            "kind": "PhysicalLiteral",
+                            "value": 300.0,
+                            "unit": "ms"
+                          }
+                        }
+                      }
+                    }
+                  ]
+                }
+              },
+              {
+                "kind": "BehaviorInvocation",
+                "target": {
+                  "kind": "Identifier",
+                  "parts": [
+                    "c"
+                  ]
+                },
+                "name": "place",
+                "args": [],
+                "with_clause": {
+                  "kind": "BehaviorWith",
+                  "members": [
+                    {
+                      "kind": "ModifierApplication",
+                      "target": null,
+                      "name": "position",
+                      "args": [
+                        {
+                          "kind": "NamedArg",
+                          "name": "x",
+                          "value": {
+                            "kind": "PhysicalLiteral",
+                            "value": 10.0,
+                            "unit": "m"
+                          }
+                        }
+                      ]
+                    }
+                  ]
+                }
+              },
+              {
+                "kind": "EmitDirective",
+                "name": "DONE",
+                "args": null
+              }
+            ],
+            "with_clause": null
+          }
+        }
+      ]
+    }
+  ]
+}

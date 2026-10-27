@@ -1,0 +1,27 @@
+use stdtypes
+
+action announce:
+    do serial:
+        emit READY
+
+action hold:
+    span : time = 100 ms
+    do serial:
+        wait elapsed(span)
+
+action cruise:
+    target : vehicle
+    do serial:
+        target.drive() with:
+            speed(5 mps)
+            until elapsed(100 ms)
+
+scenario action_calls:
+    hero : vehicle with:
+        keep(it.name == "hero")
+
+    do serial:
+        call announce()
+        call hold()
+        call cruise(hero)
+        emit DONE

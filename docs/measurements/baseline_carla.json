@@ -1,0 +1,219 @@
+{
+  "mode": "carla-baseline",
+  "repeat": 5,
+  "successes": 5,
+  "geometry_ok": 5,
+  "collisions": 0,
+  "min_distance": {
+    "count": 5,
+    "median": 8.272,
+    "p95": 8.272,
+    "max": 8.272
+  },
+  "min_ttc": {
+    "count": 5,
+    "median": 4.431,
+    "p95": 4.431,
+    "max": 4.431
+  },
+  "tick_latency_ms": {
+    "count": 5,
+    "median": 5.249,
+    "p95": 5.304,
+    "max": 5.304
+  },
+  "loop_latency_ms": {
+    "count": 5,
+    "median": 5.375,
+    "p95": 5.425,
+    "max": 5.425
+  },
+  "geometry": {
+    "time": {
+      "count": 5,
+      "median": 4.25,
+      "p95": 4.25,
+      "max": 4.25
+    },
+    "lateral_abs": {
+      "count": 5,
+      "median": 1.701,
+      "p95": 1.701,
+      "max": 1.701
+    },
+    "heading_gap": {
+      "count": 5,
+      "median": 7.169,
+      "p95": 7.172,
+      "max": 7.172
+    },
+    "ahead": {
+      "count": 5,
+      "median": -11.478,
+      "p95": -11.473,
+      "max": -11.473
+    }
+  },
+  "runs": [
+    {
+      "status": "SUCCESS",
+      "ticks": 100,
+      "sim_time": 5.0,
+      "initial": {
+        "lateral": -3.352,
+        "ahead": -12.0
+      },
+      "geometry": {
+        "time": 4.25,
+        "lateral": -1.698,
+        "heading_gap": 7.172,
+        "ahead": -11.473
+      },
+      "collision": false,
+      "min_distance": 8.266,
+      "min_ttc": 4.431,
+      "hero_speed": 0.173,
+      "npc_speed": 6.176,
+      "tick_latency_ms": {
+        "count": 100,
+        "median": 5.247,
+        "p95": 6.179,
+        "max": 10.479
+      },
+      "loop_latency_ms": {
+        "count": 100,
+        "median": 5.375,
+        "p95": 6.29,
+        "max": 10.617
+      }
+    },
+    {
+      "status": "SUCCESS",
+      "ticks": 100,
+      "sim_time": 5.0,
+      "initial": {
+        "lateral": -3.352,
+        "ahead": -12.0
+      },
+      "geometry": {
+        "time": 4.25,
+        "lateral": -1.701,
+        "heading_gap": 7.169,
+        "ahead": -11.478
+      },
+      "collision": false,
+      "min_distance": 8.272,
+      "min_ttc": 4.431,
+      "hero_speed": 0.173,
+      "npc_speed": 6.176,
+      "tick_latency_ms": {
+        "count": 100,
+        "median": 5.254,
+        "p95": 6.072,
+        "max": 6.476
+      },
+      "loop_latency_ms": {
+        "count": 100,
+        "median": 5.393,
+        "p95": 6.216,
+        "max": 6.574
+      }
+    },
+    {
+      "status": "SUCCESS",
+      "ticks": 100,
+      "sim_time": 5.0,
+      "initial": {
+        "lateral": -3.352,
+        "ahead": -12.0
+      },
+      "geometry": {
+        "time": 4.25,
+        "lateral": -1.701,
+        "heading_gap": 7.169,
+        "ahead": -11.478
+      },
+      "collision": false,
+      "min_distance": 8.272,
+      "min_ttc": 4.431,
+      "hero_speed": 0.173,
+      "npc_speed": 6.176,
+      "tick_latency_ms": {
+        "count": 100,
+        "median": 5.249,
+        "p95": 6.091,
+        "max": 6.791
+      },
+      "loop_latency_ms": {
+        "count": 100,
+        "median": 5.365,
+        "p95": 6.207,
+        "max": 6.878
+      }
+    },
+    {
+      "status": "SUCCESS",
+      "ticks": 100,
+      "sim_time": 5.0,
+      "initial": {
+        "lateral": -3.352,
+        "ahead": -12.0
+      },
+      "geometry": {
+        "time": 4.25,
+        "lateral": -1.701,
+        "heading_gap": 7.169,
+        "ahead": -11.478
+      },
+      "collision": false,
+      "min_distance": 8.272,
+      "min_ttc": 4.431,
+      "hero_speed": 0.173,
+      "npc_speed": 6.176,
+      "tick_latency_ms": {
+        "count": 100,
+        "median": 5.245,
+        "p95": 6.085,
+        "max": 6.438
+      },
+      "loop_latency_ms": {
+        "count": 100,
+        "median": 5.362,
+        "p95": 6.194,
+        "max": 6.528
+      }
+    },
+    {
+      "status": "SUCCESS",
+      "ticks": 100,
+      "sim_time": 5.0,
+      "initial": {
+        "lateral": -3.352,
+        "ahead": -12.0
+      },
+      "geometry": {
+        "time": 4.25,
+        "lateral": -1.701,
+        "heading_gap": 7.169,
+        "ahead": -11.478
+      },
+      "collision": false,
+      "min_distance": 8.272,
+      "min_ttc": 4.431,
+      "hero_speed": 0.173,
+      "npc_speed": 6.176,
+      "tick_latency_ms": {
+        "count": 100,
+        "median": 5.304,
+        "p95": 6.117,
+        "max": 7.678
+      },
+      "loop_latency_ms": {
+        "count": 100,
+        "median": 5.425,
+        "p95": 6.213,
+        "max": 7.774
+      }
+    }
+  ]
+}

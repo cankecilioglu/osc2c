@@ -1,0 +1,7 @@
+scenario compound_units:
+    var direct_speed : speed = 1 m/s
+    var road_speed : speed = 1 km/h
+    var deceleration : acceleration = 1 m/s^2
+    var cadence : frequency = 1 s^-1
+    do serial:
+        wait elapsed(100 ms)

@@ -1,0 +1,36 @@
+{
+  "type": "Sequence",
+  "name": "serial",
+  "children": [
+    {
+      "type": "ActionLeaf",
+      "name": "env.assign_celestial_position"
+    },
+    {
+      "type": "Success",
+      "name": "hero.assign_position"
+    },
+    {
+      "type": "Parallel",
+      "name": "parallel",
+      "children": [
+        {
+          "type": "ActionLeaf",
+          "name": "hero.drive"
+        },
+        {
+          "type": "WaitLeaf",
+          "name": "wait fall(hero.position.ahead_of(hero) > safety_gap)"
+        }
+      ]
+    },
+    {
+      "type": "EmitLeaf",
+      "name": "emit CRASH_AVOIDED"
+    },
+    {
+      "type": "WaitLeaf",
+      "name": "wait elapsed(0.5s)"
+    }
+  ]
+}

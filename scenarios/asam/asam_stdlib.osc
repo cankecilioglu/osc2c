@@ -1,0 +1,17 @@
+use stdtypes
+use std
+
+scenario asam_stdlib:
+    hero : vehicle with:
+        keep(it.rear_overhang >= 0 m)
+
+    category : vehicle_category = car
+    gap : range of length = range(0 m, 10 m)
+    speeds : list of speed = [0 mps, 30 kph]
+    lanes : list of range of int = [range(0, 2)]
+
+    do serial:
+        hero.drive() with:
+            speed(5 mps)
+        hero.assign_speed(speed: 0 mps)
+        emit DONE

@@ -1,0 +1,387 @@
+{
+  "summary": {
+    "total": 43,
+    "supported": 24,
+    "partial": 10,
+    "unsupported": 9,
+    "supported_ratio": 0.5581,
+    "weighted_ratio": 0.6744
+  },
+  "rows": [
+    {
+      "category": "Action framework",
+      "capability": "Action lifecycle",
+      "status": "supported",
+      "evidence": [
+        "tests/test_backend.py::test_sync_scenario_completes_and_emits_event"
+      ],
+      "note": "py_trees SUCCESS/RUNNING/FAILURE is mapped to scenario state"
+    },
+    {
+      "category": "Action framework",
+      "capability": "Actor binding",
+      "status": "supported",
+      "evidence": [
+        "tests/test_backend.py::test_keep_constraints_bind_actor_attributes"
+      ],
+      "note": "keep(it.name == ...) and role_name binding"
+    },
+    {
+      "category": "Action framework",
+      "capability": "Composition",
+      "status": "supported",
+      "evidence": [
+        "tests/test_backend.py::test_serial_parallel_and_one_of_mapping"
+      ],
+      "note": "serial / parallel / one_of"
+    },
+    {
+      "category": "Action framework",
+      "capability": "Duration handling",
+      "status": "partial",
+      "evidence": [
+        "scenarios/dev/stage3_parallel.osc",
+        "tests/test_backend.py::test_parallel_waits_for_slowest_branch"
+      ],
+      "note": "wait elapsed() is supported; no automatic parallel timeout wrapper"
+    },
+    {
+      "category": "Movement",
+      "capability": "Drive",
+      "status": "supported",
+      "evidence": [
+        "scenarios/dev/stage3_sync.osc",
+        "tests/test_carla.py::test_adapter_spawns_and_moves"
+      ],
+      "note": "durative target-speed behaviour on both adapters"
+    },
+    {
+      "category": "Movement",
+      "capability": "Walk",
+      "status": "partial",
+      "evidence": [
+        "tests/test_backend.py::test_pedestrian_walk_moves_actor"
+      ],
+      "note": "pedestrian walk works on the mock adapter; CarlaAdapter spawns vehicles and environment only"
+    },
+    {
+      "category": "Movement",
+      "capability": "Speed control",
+      "status": "partial",
+      "evidence": [
+        "src/osc2c/backend/method_registry.py",
+        "src/osc2c/adapters/carla.py"
+      ],
+      "note": "instant setpoint on mock; proportional throttle/brake on CARLA, no integral term"
+    },
+    {
+      "category": "Movement",
+      "capability": "Acceleration control",
+      "status": "unsupported",
+      "evidence": [],
+      "note": "no acceleration behaviour or acceleration modifier is mapped"
+    },
+    {
+      "category": "Movement",
+      "capability": "Stationary",
+      "status": "supported",
+      "evidence": [
+        "scenarios/carla/cut_in.osc"
+      ],
+      "note": "target speed 0 plus brake at initialisation"
+    },
+    {
+      "category": "Position & path",
+      "capability": "Assign position (absolute)",
+      "status": "supported",
+      "evidence": [
+        "scenarios/dev/placement_modes.osc",
+        "tests/test_carla.py::test_cut_in_scenario_runs_on_carla"
+      ],
+      "note": "x/y/z or OpenDRIVE lane placement"
+    },
+    {
+      "category": "Position & path",
+      "capability": "Assign orientation",
+      "status": "partial",
+      "evidence": [
+        "src/osc2c/adapters/carla.py"
+      ],
+      "note": "heading/yaw is supported; pitch and roll are not exposed"
+    },
+    {
+      "category": "Position & path",
+      "capability": "Follow path",
+      "status": "unsupported",
+      "evidence": [],
+      "note": "no spline/path routing; vehicles follow the current lane"
+    },
+    {
+      "category": "Position & path",
+      "capability": "Follow trajectory",
+      "status": "unsupported",
+      "evidence": [],
+      "note": "no time-parameterised trajectory tracking"
+    },
+    {
+      "category": "Position & path",
+      "capability": "Time gap",
+      "status": "unsupported",
+      "evidence": [],
+      "note": "no time-gap or TTC query; only spatial queries exist"
+    },
+    {
+      "category": "Position & path",
+      "capability": "Space gap",
+      "status": "supported",
+      "evidence": [
+        "tests/test_backend.py::test_sync_scenario_completes_and_emits_event"
+      ],
+      "note": "position.ahead_of() and position.euclidean()"
+    },
+    {
+      "category": "Position & path",
+      "capability": "Headway",
+      "status": "partial",
+      "evidence": [
+        "scenarios/carla/cut_in.osc"
+      ],
+      "note": "relative spatial headway via vector projection; no time headway"
+    },
+    {
+      "category": "Environment",
+      "capability": "Weather control",
+      "status": "unsupported",
+      "evidence": [],
+      "note": "adapter saves/restores weather but no OSC behaviour changes it"
+    },
+    {
+      "category": "Environment",
+      "capability": "Traffic signals",
+      "status": "unsupported",
+      "evidence": [],
+      "note": "traffic lights are not read or controlled"
+    },
+    {
+      "category": "Environment",
+      "capability": "Road conditions",
+      "status": "unsupported",
+      "evidence": [],
+      "note": "no surface/friction changes"
+    },
+    {
+      "category": "Environment",
+      "capability": "Celestial position",
+      "status": "supported",
+      "evidence": [
+        "scenarios/dev/environment_lights.osc"
+      ],
+      "note": "azimuth/elevation are applied to the adapter environment state"
+    },
+    {
+      "category": "Modifiers",
+      "capability": "Speed modifier",
+      "status": "supported",
+      "evidence": [
+        "scenarios/dev/lane_change_speed.osc"
+      ],
+      "note": "speed(speed:, at:)"
+    },
+    {
+      "category": "Modifiers",
+      "capability": "Acceleration modifier",
+      "status": "unsupported",
+      "evidence": [],
+      "note": "not declared in the fallback standard library"
+    },
+    {
+      "category": "Modifiers",
+      "capability": "Position modifier",
+      "status": "supported",
+      "evidence": [
+        "scenarios/dev/placement_modes.osc"
+      ],
+      "note": "distance + ahead_of/behind and absolute x/y/z"
+    },
+    {
+      "category": "Modifiers",
+      "capability": "Lateral modifier",
+      "status": "supported",
+      "evidence": [
+        "scenarios/carla/cut_in.osc"
+      ],
+      "note": "lane(side:, side_of:) maps to OpenDRIVE lane offsets"
+    },
+    {
+      "category": "Modifiers",
+      "capability": "Physical movement",
+      "status": "partial",
+      "evidence": [
+        "src/osc2c/adapters/carla.py"
+      ],
+      "note": "engine physics while driving; teleport for placement; no physics toggle"
+    },
+    {
+      "category": "Modifiers",
+      "capability": "Temporal modifiers",
+      "status": "supported",
+      "evidence": [
+        "tests/test_backend.py::test_elapsed_accepts_milliseconds"
+      ],
+      "note": "elapsed() with SI time values"
+    },
+    {
+      "category": "Modifiers",
+      "capability": "Relative modifiers",
+      "status": "supported",
+      "evidence": [
+        "scenarios/dev/placement_modes.osc"
+      ],
+      "note": "ahead_of / behind / side_of"
+    },
+    {
+      "category": "Modifiers",
+      "capability": "Orientation modifiers",
+      "status": "partial",
+      "evidence": [
+        "src/osc2c/backend/method_registry.py"
+      ],
+      "note": "h (yaw) is accepted; no pitch/roll modifiers"
+    },
+    {
+      "category": "Coordinate systems",
+      "capability": "Global frame (x-y-z)",
+      "status": "supported",
+      "evidence": [
+        "scenarios/dev/placement_modes.osc"
+      ],
+      "note": "absolute Cartesian placement"
+    },
+    {
+      "category": "Coordinate systems",
+      "capability": "Relative coordinates",
+      "status": "supported",
+      "evidence": [
+        "scenarios/dev/placement_modes.osc"
+      ],
+      "note": "actor-relative distance and lane offset"
+    },
+    {
+      "category": "Coordinate systems",
+      "capability": "Road frame (s-t)",
+      "status": "partial",
+      "evidence": [
+        "src/osc2c/adapters/mock.py"
+      ],
+      "note": "mock exposes s/lane; CARLA keeps waypoint s internally but does not expose t"
+    },
+    {
+      "category": "Coordinate systems",
+      "capability": "Route-based (s-t)",
+      "status": "unsupported",
+      "evidence": [],
+      "note": "no route construction or route-relative queries"
+    },
+    {
+      "category": "Scenario composition",
+      "capability": "Serial execution",
+      "status": "supported",
+      "evidence": [
+        "tests/test_backend.py::test_serial_parallel_and_one_of_mapping"
+      ],
+      "note": "Sequence(memory=True)"
+    },
+    {
+      "category": "Scenario composition",
+      "capability": "Parallel execution",
+      "status": "supported",
+      "evidence": [
+        "tests/test_backend.py::test_parallel_waits_for_slowest_branch"
+      ],
+      "note": "Parallel(SuccessOnAll)"
+    },
+    {
+      "category": "Scenario composition",
+      "capability": "Event-driven execution",
+      "status": "supported",
+      "evidence": [
+        "scenarios/dev/event_handshake.osc",
+        "tests/test_backend.py::test_latched_event_satisfies_later_wait"
+      ],
+      "note": "latched blackboard events"
+    },
+    {
+      "category": "Scenario composition",
+      "capability": "Conditional triggers",
+      "status": "supported",
+      "evidence": [
+        "scenarios/dev/stage3_fall.osc"
+      ],
+      "note": "elapsed, rise, fall and @event"
+    },
+    {
+      "category": "Scenario composition",
+      "capability": "Custom behaviour",
+      "status": "partial",
+      "evidence": [
+        "tests/test_backend.py::test_user_defined_actor_method_is_evaluated"
+      ],
+      "note": "user expression methods and action bodies; no action inheritance merging"
+    },
+    {
+      "category": "Scenario composition",
+      "capability": "Custom actions",
+      "status": "supported",
+      "evidence": [
+        "scenarios/dev/action_calls.osc",
+        "tests/test_backend.py::test_action_call_accepts_actor_parameter_and_defaults"
+      ],
+      "note": "action bodies compile to scoped subtrees with positional/named arguments and defaults"
+    },
+    {
+      "category": "Scenario composition",
+      "capability": "Conflict resolution",
+      "status": "partial",
+      "evidence": [
+        "tests/test_backend.py::test_serial_parallel_and_one_of_mapping"
+      ],
+      "note": "one_of first-success arbitration; no priority or conflict policies"
+    },
+    {
+      "category": "Scenario composition",
+      "capability": "Semantic validation",
+      "status": "supported",
+      "evidence": [
+        "tests/test_semantics.py"
+      ],
+      "note": "scopes, types, units and stable diagnostic codes"
+    },
+    {
+      "category": "Scenario composition",
+      "capability": "one_of",
+      "status": "supported",
+      "evidence": [
+        "tests/test_backend.py::test_serial_parallel_and_one_of_mapping"
+      ],
+      "note": "Parallel(SuccessOnOne)"
+    },
+    {
+      "category": "Scenario composition",
+      "capability": "rise",
+      "status": "supported",
+      "evidence": [
+        "tests/test_backend.py::test_rise_does_not_fire_on_an_already_true_condition"
+      ],
+      "note": "edge detection"
+    },
+    {
+      "category": "Scenario composition",
+      "capability": "fall",
+      "status": "supported",
+      "evidence": [
+        "tests/test_backend.py::test_fall_edge_fires_after_speed_drops"
+      ],
+      "note": "edge detection"
+    }
+  ]
+}

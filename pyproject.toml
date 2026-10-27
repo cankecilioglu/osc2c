@@ -1,0 +1,29 @@
+[build-system]
+requires = ["setuptools>=68"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "osc2c"
+version = "0.1.0"
+description = "OpenSCENARIO 2.1 to CARLA compiler (paper reproduction)"
+requires-python = ">=3.12"
+dependencies = [
+  "antlr4-python3-runtime==4.13.2",
+  "py-trees==2.6.0",
+]
+
+[project.optional-dependencies]
+dev = ["pytest==9.1.1", "pytest-cov==7.1.0"]
+
+[project.scripts]
+osc2c = "osc2c.cli:main"
+
+[tool.setuptools.packages.find]
+where = ["src"]
+
+[tool.pytest.ini_options]
+pythonpath = ["src"]
+testpaths = ["tests"]
+markers = [
+  "carla: tests that require a running CARLA server",
+]

@@ -1,0 +1,7 @@
+use stdtypes
+
+scenario s:
+    hero : vehicle
+    do serial:
+        hero.drive() with:
+            speed(10kph)

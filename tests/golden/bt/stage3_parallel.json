@@ -1,0 +1,38 @@
+{
+  "type": "Sequence",
+  "name": "serial",
+  "children": [
+    {
+      "type": "Parallel",
+      "name": "parallel",
+      "children": [
+        {
+          "type": "WaitLeaf",
+          "name": "wait elapsed(0.5s)"
+        },
+        {
+          "type": "Sequence",
+          "name": "serial",
+          "children": [
+            {
+              "type": "WaitLeaf",
+              "name": "wait elapsed(0.2s)"
+            },
+            {
+              "type": "EmitLeaf",
+              "name": "emit TICK"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "type": "WaitLeaf",
+      "name": "wait @TICK"
+    },
+    {
+      "type": "EmitLeaf",
+      "name": "emit DONE"
+    }
+  ]
+}

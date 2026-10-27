@@ -1,0 +1,5 @@
+scenario stage3_unsupported:
+    hero : vehicle
+
+    do serial:
+        hero.fly()
