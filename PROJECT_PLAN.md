@@ -1,4 +1,4 @@
-# Bitirme Projesi Planı — OpenSCENARIO 2.1 → CARLA Derleyicisi
+# Bitirme Projesi Planı — OSC2C: OpenSCENARIO 2.1 → CARLA Derleyicisi
 
 **Sürüm:** 1.0
 **Tarih:** 26 Ekim 2026

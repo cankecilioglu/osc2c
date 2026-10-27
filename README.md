@@ -1,10 +1,13 @@
-# OSC2 → CARLA Compiler
+# OSC2C — OpenSCENARIO 2.1 → CARLA Compiler
 
 ASAM OpenSCENARIO 2.1 DSL'ini CARLA simülatöründe çalışan py_trees davranış ağaçlarına çeviren, makale tabanlı bir derleyici reprodüksiyonu.
 
+- Depo: https://github.com/cankecilioglu/osc2c
 - Makale: *Compiling OpenSCENARIO 2.1 for Scenario-Based Testing in CARLA* (arXiv:2604.16452)
 - Durum: Aşama 0 (ortam), Aşama 1 (lexer/parser/AST), Aşama 2 (semantik), Aşama 3 (runtime + BT), Aşama 4 (CARLA adaptörü + cut-in), Aşama 5 (doğrulama + ölçüm) ve Aşama 5.7 (kullanıcı tanımlı modifier genişletme) tamam.
 - Hedef: 31 Ocak 2027'ye kadar tez (Aşama 6).
+
+Proje adı **OSC2C**; Python paketi ve CLI komutu da `osc2c`.
 
 ## Hızlı başlangıç
 

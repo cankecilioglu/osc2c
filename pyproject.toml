@@ -7,10 +7,14 @@ name = "osc2c"
 version = "0.1.0"
 description = "OpenSCENARIO 2.1 to CARLA compiler (paper reproduction)"
 requires-python = ">=3.12"
+authors = [{ name = "Can Kecilioglu", email = "cankecilioglu@gmail.com" }]
 dependencies = [
   "antlr4-python3-runtime==4.13.2",
   "py-trees==2.6.0",
 ]
+
+[project.urls]
+Repository = "https://github.com/cankecilioglu/osc2c"
 
 [project.optional-dependencies]
 dev = ["pytest==9.1.1", "pytest-cov==7.1.0"]

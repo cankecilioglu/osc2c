@@ -2,6 +2,7 @@
 
 ## Proje
 
+Proje adı: **OSC2C** — OpenSCENARIO 2.1 → CARLA Derleyicisi (depo: https://github.com/cankecilioglu/osc2c).
 OpenSCENARIO 2.1 DSL'ini CARLA'da çalışan py_trees davranış ağaçlarına çeviren derleyici.
 Makale: *Compiling OpenSCENARIO 2.1 for Scenario-Based Testing in CARLA* (arXiv:2604.16452).
 Bu bir makale reprodüksiyonudur; resmî ASAM/CARLA ürünü değildir.
